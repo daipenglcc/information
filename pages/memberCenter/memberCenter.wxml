@@ -1,0 +1,111 @@
+<!--pages/memberCenter/memberCenter.wxml-->
+<view class="container">
+  <view class="new_user_box">
+    <view class="new_bg"></view>
+    <view class="new_user_view">
+      <view class="b1">
+        <open-data wx:if="{{canIUseOpenData}}" class="user_img" type="userAvatarUrl"></open-data>
+
+        <image wx:elif="{{!canIUseOpenData && hasUserInfo}}" class="user_img" src="{{userInfo.avatarUrl}}"></image>
+
+        <image wx:else class="user_img"></image>
+
+        <view class="b2">
+          <open-data wx:if="{{canIUseOpenData}}" class="user_name" type="userNickName"></open-data>
+          <text wx:elif="{{!canIUseOpenData && hasUserInfo}}" class="user_name">{{userInfo.nickName}}</text>
+
+          <text wx:else class="user_name">请先授权</text>
+          <text class="user_tag">{{company ? '企业用户' : '个人用户'}}</text>
+        </view>
+      </view>
+      <view class="b3">
+
+        <view class="b4">
+          <image class="m3" mode="aspectFit" src="../images/ic_home_id@2x.png"></image>
+          <text class="m4">{{formData.userId}}</text>
+        </view>
+
+        <view class="b4">
+          <image class="m3" mode="aspectFit" src="../images/ic_home_phone@2x.png"></image>
+          <text class="m4">{{userInfo.moblie}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="b5">
+    <!--  hover-class="none" -->
+    <navigator url="/pages/personalData/personalData">
+      <view class="b6">
+        <image class="i1" mode="aspectFit" src="../images/ziliao@2x.png"></image>
+        <text class="i2">资料管理</text>
+        <image class="i3" mode="aspectFit" src="../images/right.png"></image>
+      </view>
+    </navigator>
+
+    <block wx:if="{{!company}}">
+      <navigator url="/pages/addressListManager/addressListManager">
+        <view class="b6">
+          <image class="i1" mode="aspectFit" src="../images/dingwei@2x.png"></image>
+          <text class="i2">收货地址管理</text>
+          <image class="i3" mode="aspectFit" src="../images/right.png"></image>
+        </view>
+      </navigator>
+
+      <navigator url="/pages/singlePage/singlePage?type=0">
+        <view class="b6">
+          <image class="i1" mode="aspectFit" src="../images/caozuo@2x.png"></image>
+          <text class="i2">帮助中心</text>
+          <image class="i3" mode="aspectFit" src="../images/right.png"></image>
+        </view>
+      </navigator>
+    </block>
+
+
+
+    <block wx:if="{{company}}">
+      <navigator url="/pages/employeeManagement/employeeManagement">
+        <view class="b6">
+          <image class="i1" mode="aspectFit" src="../images/dingwei@2x.png"></image>
+          <text class="i2">员工管理</text>
+          <image class="i3" mode="aspectFit" src="../images/right.png"></image>
+        </view>
+      </navigator>
+
+      <navigator url="/pages/applicationManagement/applicationManagement?type=0">
+        <view class="b6">
+          <image class="i1" mode="aspectFit" src="../images/caozuo@2x.png"></image>
+          <text class="i2">应用管理</text>
+          <image class="i3" mode="aspectFit" src="../images/right.png"></image>
+        </view>
+      </navigator>
+    </block>
+
+
+
+
+    <view class="b6" style="border:0;position: relative;">
+      <image class="i1" mode="aspectFit" src="../images/kefu@2x.png"></image>
+      <text class="i2">在线客服</text>
+      <image class="i3" mode="aspectFit" src="../images/right.png"></image>
+      <button open-type="contact" style="position: absolute;top: 0;left: 0;right: 0;bottom: 0;width: 690rpx;height: 100rpx;opacity: 0;"></button>
+    </view>
+
+
+
+  </view>
+
+  <view class="mask" hidden="{{checkLoginStr != 'show'}}" />
+
+  <view class="{{checkLoginStr}}">
+    <image class="logo" src="../images/logo.png"></image>
+    <text class="name">网络信息安全系统平台</text>
+    <text class="mark">获得您的公开信息（昵称、头像等）</text>
+    <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile" style=" background: #1D6BE9;color: white;"> 授权登录 </button>
+    <button wx:elif="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo" style=" background: #1D6BE9;color: white;"> 授权登录 </button>
+    <view wx:else> 请使用1.4.4及以上版本基础库 </view>
+  </view>
+
+  <button bindtap="outlogin" class="submit_btn" type="primary" size="default" style="margin: 50rpx auto; background: #1D6BE9;width: 600rpx;font-size: 32rpx;">退出登录</button>
+
+</view>

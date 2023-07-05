@@ -1,0 +1,16 @@
+<!--pages/employeeManagement/employeeManagement.wxml-->
+<view class="container">
+
+
+  <view class="mList">
+    <view class="item" wx:for="{{mList}}">
+      <view class="name-box">
+        <text class="name">{{item.nickName}}</text>
+        <text class="type">({{item.phonenumber}})</text>
+      </view>
+      <text class="code">{{item.userName}}</text>
+      <text class="status">状态：<text style="color:{{item.status == 0 ? '#3E52B3' : '#666666'}}">{{item.status == 0 ? "正常" : "停用"}}</text></text>
+    </view>
+  </view>
+
+</view>

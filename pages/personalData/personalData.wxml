@@ -1,0 +1,40 @@
+<!--pages/personalData/personalData.wxml-->
+<view class="container">
+
+
+  <scroll-view scroll-y="true">
+    <view>
+      <form bindsubmit="submit">
+        <view class="form_box">
+
+          <view class="input_box">
+            <image mode="widthFix" class="icon" src="../images/yonghu.png"></image>
+            <text class="name">用户名</text>
+            <input disabled="true" name="userName" value="{{formData.userName}}" class="input" type="text" placeholder="请输入" />
+          </view>
+
+          <view class="input_box">
+            <image mode="widthFix" class="icon" src="../images/shoujihao.png"></image>
+            <text class="name">手机号码</text>
+            <input  disabled="true"  name="phonenumber" value="{{formData.phonenumber}}" maxlength="11" class="input" type="number" placeholder="请输入" />
+          </view>
+
+          <view class="input_box">
+            <image mode="widthFix" class="icon" src="../images/mima.png"></image>
+            <text class="name">邮箱</text>
+            <input name="email" value="{{formData.email}}" class="input" type="text" placeholder="请输入" />
+          </view>
+          <picker bindchange="bindGenderChange" value="{{genderIndex}}" range="{{genderArray}}">
+            <view class="input_box">
+              <image mode="widthFix" class="icon" src="../images/mima.png"></image>
+              <text class="name">性别</text>
+              <input disabled="true" value="{{genderArray[genderIndex]}}" name="sex" class="input" type="text" placeholder="请选择" />
+            </view>
+          </picker>
+        </view>
+        <button class="submit_btn" type="primary" form-type="submit" size="default" style="background: #1D6BE9;width: 600rpx;font-size: 32rpx;">提交</button>
+      </form>
+    </view>
+  </scroll-view>
+
+</view>

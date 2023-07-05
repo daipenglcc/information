@@ -1,0 +1,7 @@
+/* pages/singlePage/singlePage.wxss */
+text{
+  font-size: 32rpx;
+  color: #333;
+  margin: 30rpx;
+  line-height: 50rpx;
+}

@@ -1,0 +1,15 @@
+<!--pages/applicationManagement/applicationManagement.wxml-->
+<view class="container">
+
+  <view class="mList">
+    <view class="item" wx:for="{{mList}}">
+      <view class="name-box">
+        <text class="name">{{item.appAppID}}</text>
+        <text class="type">({{item.appType}})</text>
+      </view>
+      <text class="code">{{item.appCode}}</text>
+      <text class="status">状态：<text style="color:{{item.status == 1 ? '#3E52B3' : '#666666'}}">{{item.status == 1 ? "正常" : "停用"}}</text></text>
+    </view>
+  </view>
+
+</view>

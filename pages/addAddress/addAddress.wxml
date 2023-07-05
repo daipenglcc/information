@@ -1,0 +1,55 @@
+<!--pages/addAddress/addAddress.wxml-->
+<!--pages/register/register.wxml-->
+<view class="container">
+
+
+  <scroll-view scroll-y="true">
+    <view>
+      <form bindsubmit="submit">
+        <view class="form_box">
+          <view class="input_box">
+            <image mode="widthFix" class="icon" src="../images/yonghu.png"></image>
+            <text class="name">姓名</text>
+            <input name="customerName" value="{{formData.customerName}}" class="input" type="text" placeholder="请输入" />
+          </view>
+          <view class="input_box">
+            <image mode="widthFix" class="icon" src="../images/shoujihao.png"></image>
+            <text class="name">手机号码</text>
+            <input name="phone" maxlength="11" value="{{formData.phone}}" class="input" type="number" placeholder="请输入" />
+          </view>
+
+          <view class="input_box">
+            <image mode="widthFix" class="icon" src="../images/yonghu.png"></image>
+            <text class="name">身份证号码</text>
+            <input name="idNumber" maxlength="18"  value="{{formData.idNumber}}"  class="input" type="idcard" placeholder="请输入" />
+          </view>
+          <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}" range-key="name">
+            <view class="input_box">
+              <image mode="widthFix" class="icon" src="../images/qiyemingcheng.png"></image>
+              <text class="name">省市区</text>
+              <input disabled="true" name="addressbase" value="{{formData.province+formData.city+formData.area+formData.street}}" class="input" type="text" placeholder="请选择" />
+            </view>
+          </picker>
+          <view class="input_box">
+            <image mode="widthFix" class="icon" src="../images/qiyemingcheng.png"></image>
+            <text class="name">详细地址</text>
+            <input name="address" class="input" value="{{formData.address}}" type="text" placeholder="请输入" />
+          </view>
+          <view class="input_box">
+            <image mode="widthFix" class="icon" src="../images/qiyemingcheng.png"></image>
+            <text class="name">隐私地址</text>
+            <input name="addressShow" class="input" type="text" value="{{formData.addressShow}}"  placeholder="请输入" />
+          </view>
+
+
+
+
+        </view>
+          <button class="submit_btn" type="primary" form-type="submit" size="default" style="background: #1D6BE9;width: 600rpx;font-size: 32rpx;">提交</button>
+       
+
+      </form>
+    </view>
+  </scroll-view>
+
+</view>

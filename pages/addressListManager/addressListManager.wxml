@@ -1,0 +1,49 @@
+<!--pages/addressListManager/addressListManager.wxml-->
+<view class="container">
+  <view class="mList">
+    <view class="item" wx:for="{{mList}}" wx:key="this">
+      <view class="box1">
+        <text class="t1">{{item.customerName}}</text>
+        <text class="t1">{{item.phone}}</text>
+      </view>
+      <view class="box2">
+        <view class="box3">
+          <text class="t2">详细地址</text>
+          <text class="t3">地址编码</text>
+        </view>
+        <view class="box4">
+          <text class="t4" style="line-height: 35rpx;">{{item.province+item.city+item.area+(item.street ? item.street : "")+item.address+item.addressShow}}</text>
+          <text class="t4" data-txt="{{item.customerKey}}" bindtap="copyText" style="margin : 20rpx 0;line-height: 35rpx;" >{{item.customerKey}}</text>
+        </view>
+        <view class="box5">
+          <image class="qrcode" src="{{item.qrCode ? item.qrCode : ''}}" data-img="{{item.qrCode}}" bindtap="preview"></image>
+          <!-- <canvas  class="qrcode" canvas-id="{{'testCanvas0'}}"  style="height: 100rpx;width: 100rpx;" type="2d" id="{{'testCanvas0'}}"></canvas> -->
+        </view>
+      </view>
+
+      <view class="box6">
+        <view class="box7">
+          <view class="box8" data-item="{{item}}"  bindtap="edit">
+            <image class="litter_icon" src="../images/edit@2x.png"></image>
+            <text class="t4">编辑</text>
+          </view>
+          <view class="box8"  data-item="{{item}}" bindtap="delAddress">
+            <image class="litter_icon" src="../images/shanchu@2x.png"></image>
+            <text class="t4">删除</text>
+          </view>
+        </view>
+          <view class="box9" data-item="{{item}}" bindtap="towlsq">
+            <image class="litter_icon" src="../images/wuliu@2x.png"></image>
+            <text class="t4">物流授权</text>
+          </view>
+      </view>
+
+
+    </view>
+  </view>
+
+  <navigator url="/pages/addAddress/addAddress">
+    <button class="submit_btn" type="primary" size="default" style="position: fixed;bottom: 20rpx;left: 75rpx; background: #1D6BE9;width: 600rpx;font-size: 32rpx;">+ 新建收货地址</button>
+  </navigator>
+
+</view>

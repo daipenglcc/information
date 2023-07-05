@@ -1,0 +1,138 @@
+/* pages/addressListManager/addressListManager.wxss */
+.item {
+  width: 690rpx;
+  border-radius: 20rpx;
+  background: white;
+  margin: 10rpx auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.box1 {
+  display: flex;
+  width: 640rpx;
+  margin: 20rpx auto 0 auto;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.t1 {
+  font-size: 30rpx;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  color: #262626;
+}
+
+.box2 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2rpx solid #ededed;
+}
+
+.box3 {
+  display: flex;
+  margin: 20rpx;
+  flex-direction: column;
+  align-items: center;
+}
+
+.box4 {
+  flex: 1;
+  display: flex;
+  margin: 20rpx;
+  flex-direction: column;
+}
+
+.qrcode {
+  width: 70rpx;
+  height: 70rpx;
+  /* background-color: gray; */
+  z-index: 999;
+}
+
+.litter_icon {
+  width: 30rpx;
+  margin-right: 10rpx;
+  height: 30rpx;
+}
+
+.t4 {
+  font-size: 24rpx;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  color: #262626;
+}
+
+.t2 {
+  height: 35rpx;
+  font-size: 24rpx;
+  text-align: center;
+  padding: 0 10rpx;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  color: #262626;
+  background: #F8F8F8;
+  line-height: 35rpx;
+  border-radius: 15rpx;
+}
+
+
+.t3 {
+  height: 35rpx;
+  font-size: 24rpx;
+  text-align: center;
+  margin: 20rpx auto;
+  padding: 0 10rpx;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  color: white;
+  background: #316EE1;
+  line-height: 35rpx;
+  border-radius: 15rpx;
+}
+
+.box5 {
+  margin-right: 30rpx;
+}
+
+.box6 {
+  width: 690rpx;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.box7 {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.box8 {
+  align-items: center;
+  display: flex;
+  padding: 20rpx 25rpx;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.box9 {
+  padding: 20rpx 25rpx;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.submit_btn:active {
+  opacity: 0.7;
+}
+.mList{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 170rpx;
+}

@@ -1,0 +1,27 @@
+{
+  "pages":[
+    "pages/splash/splash",
+    "pages/login/login",
+    "pages/register/register",
+    "pages/forgetPassword/forgetPassword",
+    "pages/addressListManager/addressListManager",
+    "pages/addAddress/addAddress",
+    "pages/logistics/logistics",
+    "pages/addLogistics/addLogistics",
+    "pages/personalData/personalData",
+    "pages/singlePage/singlePage",
+    "pages/index/index",
+    "pages/memberCenter/memberCenter",
+    "pages/employeeManagement/employeeManagement",
+    "pages/applicationManagement/applicationManagement",
+    "pages/logs/logs"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "网络信息安全系统平台",
+    "navigationBarTextStyle":"black"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

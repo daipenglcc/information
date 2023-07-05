@@ -1,0 +1,84 @@
+<!--pages/register/register.wxml-->
+<view class="container">
+  <view class="tabs" >
+    <text id="0" bindtap="checkTab" class="tab {{cur == 0 ? 'active' : ''}}">个人</text>
+    <text id="1" bindtap="checkTab" class="tab {{cur == 1 ? 'active' : ''}}">企业</text>
+  </view>
+
+  <scroll-view scroll-y="true">
+    <view>
+      <form bindsubmit="submit">
+        <view class="form_box">
+          <view class="input_box" wx:if="{{cur == 0}}">
+            <image mode="widthFix" class="icon" src="../images/yonghu.png"></image>
+            <text class="name">账号</text>
+            <input name="username" class="input" type="text" placeholder="请输入" />
+          </view>
+
+
+
+          <view class="input_box" wx:if="{{cur == 1}}">
+            <image mode="widthFix" class="icon" src="../images/qiyemingcheng.png"></image>
+            <text class="name">企业名称</text>
+            <input name="companyName" class="input" type="text" placeholder="请输入" />
+          </view>
+
+
+          <view class="input_box"  hidden="true">
+            <image mode="widthFix" class="icon" src="../images/jigoudaima.png"></image>
+            <text class="name">组织机构代码证</text>
+            <input  class="input" type="text" placeholder="请输入" />
+          </view>
+
+
+          <view class="input_box" wx:if="{{cur == 1}}">
+            <image mode="widthFix" class="icon" src="../images/yonghu.png"></image>
+            <text class="name">账号</text>
+            <input name="username" class="input" type="text" placeholder="请输入" />
+          </view>
+
+          <view class="input_box" >
+            <image mode="widthFix" class="icon" src="../images/yonghu.png"></image>
+            <text class="name">邮箱</text>
+            <input name="email" class="input" type="text" placeholder="请输入" />
+          </view>
+
+
+
+          <view class="input_box">
+            <image mode="widthFix" class="icon" src="../images/shoujihao.png"></image>
+            <text class="name">手机号码</text>
+            <input name="mobile" maxlength="11" class="input" type="number" placeholder="请输入" bindinput="checkPhone"/>
+          </view>
+
+          <view class="input_box2"  >
+            <view class="input_box3">
+              <image mode="widthFix" class="icon" src="../images/shoujihao.png"></image>
+              <text class="name">短信验证码</text>
+              <input name="code" class="input" type="number" placeholder="请输入" />
+            </view>
+            <text class="code_btn"s bindtap="getCode">{{codeTxt}}</text>
+          </view>
+
+
+
+
+          <view class="input_box">
+            <image mode="widthFix" class="icon" src="../images/mima.png"></image>
+            <text class="name">密码</text>
+            <input name="password" class="input" type="text" placeholder="请输入" password />
+          </view>
+
+          <view class="input_box">
+            <image mode="widthFix" class="icon" src="../images/mima.png"></image>
+            <text class="name">重复密码</text>
+            <input name="confirmPassword" class="input" type="text" placeholder="请输入" password  />
+          </view>
+
+        </view>
+        <button class="submit_btn" type="primary" form-type="submit" size="default" style="background: #1D6BE9;width: 600rpx;font-size: 32rpx;">注册</button>
+      </form>
+    </view>
+  </scroll-view>
+
+</view>

@@ -1,0 +1,117 @@
+/* pages/addAddress/addAddress.wxss */
+/* pages/register/register.wxss */
+.tabs {
+  width: 500rpx;
+  height: 50rpx;
+  background: white;
+  margin: 90rpx auto 0 auto;
+  border-radius: 35rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.tab {
+  width: 180rpx;
+  height: 50rpx;
+  text-align: center;
+  font-size: 26rpx;
+  line-height: 50rpx;
+  border-radius: 35rpx;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+}
+
+.tab.active {
+  background: #1D6BE9;
+  color: #FFFFFF;
+}
+
+.form_box {
+  width: 100%;
+  display: flex;
+  margin-top: 70rpx;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input_box {
+  width: 690rpx;
+  height: 100rpx;
+  display: flex;
+  margin-top: 20rpx;
+  flex-direction: row;
+  align-items: center;
+  background: #FFFFFF;
+  border-radius: 8rpx;
+}
+
+.input_box2 {
+  width: 690rpx;
+  height: 100rpx;
+  display: flex;
+  margin-top: 20rpx;
+  flex-direction: row;
+  align-items: center;
+}
+
+.input_box3 {
+  width: 440rpx;
+  height: 100rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: #FFFFFF;
+  border-radius: 8rpx;
+}
+
+.code_btn {
+  flex: 1;
+  font-size: 28rpx;
+  font-family: FZLanTingHei-L-GBK;
+  font-weight: 400;
+  color: #FFFFFF;
+  height: 98rpx;
+  margin-left: 20rpx;
+  text-align: center;
+  background: #1D6BE9;
+  border-radius: 8rpx;
+  line-height: 98rpx;
+}
+.code_btn:active{
+  opacity: 0.7;
+}
+
+.icon {
+  margin-left: 25rpx;
+  width: 30rpx;
+  height: 30rpx;
+}
+
+.name {
+  margin-left: 20rpx;
+  font-size: 28rpx;
+  font-family: FZLanTingHei-L-GBK;
+  font-weight: 400;
+  color: #818181;
+}
+
+.input {
+  flex: 1;
+  margin: 0 20rpx;
+  line-height: 100rpx;
+  font-size: 30rpx;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  color: #1A1A1A;
+  text-align: end;
+}
+
+.submit_btn{
+  margin: 100rpx auto;
+}
+
+.submit_btn:active{
+  opacity: 0.7;
+}

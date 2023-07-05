@@ -1,0 +1,39 @@
+<!--pages/logistics/logistics.wxml-->
+
+<view class="container">
+  <view class="item"  wx:for="{{mList}}" wx:key="this">
+    <view class="box1">
+      <text class="t1">{{item.customerName}}</text>
+      <text class="t1">{{item.phone}}</text>
+    </view>
+    <view class="box2">
+      <view class="box3">
+        <text class="t2">详细地址</text>
+        <text class="t3">地址编码</text>
+      </view>
+      <view class="box4">
+        <text class="t4" style="line-height: 35rpx;">{{item.province+item.city+item.area+(item.street ? item.street : "")+item.address+item.addressShow}}</text>
+        <text class="t4"  data-txt="{{item.customerKey}}" bindtap="copyText" style="margin : 20rpx 0;line-height: 35rpx;">{{item.customerKey}}</text>
+      </view>
+      <view class="box5">
+        <image class="qrcode" src="{{item.qrCode ? item.qrCode : ''}}" data-img="{{item.qrCode}}" bindtap="preview"></image>
+        
+      </view>
+    </view>
+
+  </view>
+
+
+  <view class="box10">
+    <text class="t5">已授权物流</text>
+    <view class="t6" data-item="{{mList[0]}}" bindtap="addLogistics">
+      添加
+    </view>
+  </view>
+  <view class="item_box" wx:for="{{wList}}" wx:key="this">
+    <text class="t7">{{item.courierName}}</text>
+    <text class="t8" data-item="{{item}}" bindtap="delLogistics">取消授权</text>
+  </view>
+
+
+</view>
