@@ -23,8 +23,24 @@ u.statusCode_success = 200 //开发者服务器返回的 HTTP 成功状态码
 u.CODE_SUCCESS = '0' //接口请求成功的CODE
 u.CODE_TOKEN_TIMEOUT = '401' //用户token过期CODE
 
+// 根据环境变量设置请求API路径
+var apiUrl = 'https://wx.wuxianliuliang.cn/'
+let accountInfo = wx.getAccountInfoSync()
+let nowEnv = accountInfo.miniProgram.envVersion
+switch (nowEnv) {
+	case 'develop': // 开发版环境
+		apiUrl = 'https://wx.wuxianliuliang.cn/'
+		break
+	case 'trial': // 体验版环境
+		apiUrl = 'https://wx.wuxianliuliang.cn/'
+		break
+	case 'release': // 正式版环境
+		apiUrl = 'https://wx.wuxianliuliang.cn/'
+		break
+}
+
 //服务器地址
-u.API_SERVICE = 'https://wx.wuxianliuliang.cn/'
+u.API_SERVICE = apiUrl
 
 /**
  * 拦截器
