@@ -5,7 +5,9 @@ Page({
 	/**
 	 * 页面的初始数据
 	 */
-	data: {},
+	data: {
+		imageData: 'https://yilie.oss-cn-beijing.aliyuncs.com/ats-luckin/0627/iocn_luckin_logo.png'
+	},
 
 	/**
 	 * 生命周期函数--监听页面加载
