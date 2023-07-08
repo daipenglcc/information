@@ -6,13 +6,97 @@ Page({
 	 * 页面的初始数据
 	 */
 	data: {
-		imageData: 'https://yilie.oss-cn-beijing.aliyuncs.com/ats-luckin/0627/iocn_luckin_logo.png'
+		nickName: '',
+		avatarUrl: ''
 	},
 
 	/**
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {},
+
+	getUserInfo() {
+		if (this.data.nickName) {
+			return
+		}
+		wx.getUserProfile({
+			desc: '用于保存用户的昵称', // 声明获取用户个人信息后的用途
+			success: async res => {
+				// 获取unionId
+				try {
+					let unionId = await this.getUnionId()
+					let obj = { avatarUrl: res.userInfo.avatarUrl, nickName: res.userInfo.nickName, unionId }
+					wx.setStorage({
+						key: 'userInfo',
+						data: obj,
+						success: () => {
+							this.setData({
+								unionId,
+								nickName: res.userInfo.nickName,
+								avatarUrl: res.userInfo.avatarUrl
+							})
+						},
+						fail: error => {
+							// console.log('存储缓存失败', error)
+						}
+					})
+				} catch (error) {
+					wx.showToast({
+						title: '登录失败',
+						icon: 'none'
+					})
+					return
+				}
+			},
+			fail: f => {
+				wx.showToast({
+					title: '授权失败',
+					icon: 'none'
+				})
+				return
+			}
+		})
+	},
+
+	async getSqlData() {
+		wx.showLoading({
+			title: '初始化登录'
+		})
+
+		try {
+			let unionId = await this.getUnionId()
+			console.log('unionId', unionId)
+			// 获取unionId，判断是否已进行绑定
+			// 有绑定信息绑定or无绑定信息
+
+			// 初始化完成
+			wx.hideLoading()
+		} catch (error) {
+			wx.showToast({
+				title: '初始化登录失败',
+				icon: 'none'
+			})
+			return
+		}
+	},
+
+	// 用code换取unionId
+	getUnionId() {
+		return new Promise((resolve, reject) => {
+			wx.login({
+				success: function (res) {
+					console.log('res', res)
+					let code = res.code
+					// 用code换取unionId
+
+					resolve('unionId')
+				},
+				fail: error => {
+					reject('登录失败')
+				}
+			})
+		})
+	},
 
 	setMyInfo() {
 		wx.navigateTo({
@@ -40,7 +124,23 @@ Page({
 	/**
 	 * 生命周期函数--监听页面显示
 	 */
-	onShow: function () {},
+	onShow: function () {
+		wx.getStorage({
+			key: 'userInfo',
+			success: res => {
+				console.log('XXXXXX2', res)
+				this.setData({
+					unionId: res.data.unionId,
+					nickName: res.data.nickName,
+					avatarUrl: res.data.avatarUrl
+				})
+			},
+			fail: error => {
+				// 本地无存储，执行数据库存储校验
+				this.getSqlData()
+			}
+		})
+	},
 
 	/**
 	 * 生命周期函数--监听页面隐藏

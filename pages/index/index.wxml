@@ -1,10 +1,10 @@
 <view class="header">
-  <view class="inner-container">
+  <view class="inner-container" bindtap="getUserInfo">
     <view class="left-section">
-      <image class="avatar" src="{{imageData}}" />
+      <image class="avatar" src="{{avatarUrl}}" />
       <view class="userinfo">
-        <text class="login-text">登录/注册</text>
-        <text class="login-id">ID:1233333</text>
+        <text class="login-text">{{!nickName ? '登录/注册' : nickName}}</text>
+        <!--<text class="login-id" wx:if="{{nickName}}">ID:1233333</text>-->
       </view>
     </view>
     <view class="right-section">
