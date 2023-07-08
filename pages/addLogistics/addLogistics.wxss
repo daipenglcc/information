@@ -21,7 +21,7 @@
   flex-direction: row;
   border-radius: 16rpx;
   align-items: center;
-  background: #1d6be925;
+  background: #409DFD25;
   box-shadow: 0px 1px 6px 0px rgba(136, 136, 136, 0.1000);
   justify-content: space-between;
 }
@@ -43,7 +43,7 @@
   line-height: 70rpx;
   text-align: center;
   padding: 0 25rpx;
-  color: #1D6BE9;
+  color: #409DFD;
 }
 
 .checkbox {

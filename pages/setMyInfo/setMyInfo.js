@@ -8,7 +8,8 @@ Page({
 	data: {
 		genderArray: ['男', '女'],
 		genderIndex: -1,
-		formData: {}
+		formData: {},
+		isCheck: false
 	},
 
 	/**
@@ -57,6 +58,17 @@ Page({
 			path: '/pages/splash/splash'
 		}
 	},
+	checkLogin(e) {
+		var isCheck = !this.data.isCheck
+		this.setData({
+			isCheck: isCheck
+		})
+	},
+	toSingPage() {
+		wx.navigateTo({
+			url: '../../pages/singlePage/singlePage'
+		})
+	},
 	getFormData() {
 		const that = this
 		http.httpGet({
@@ -78,8 +90,63 @@ Page({
 		})
 	},
 	submit(e) {
-		console.log(e.detail.value)
 		var formData = e.detail.value
+		if (!formData.userName) {
+			wx.showToast({
+				title: '请输入用户名',
+				icon: 'none'
+			})
+			return
+		}
+
+		if (!formData.name) {
+			wx.showToast({
+				title: '请输入姓名',
+				icon: 'none'
+			})
+			return
+		}
+
+		if (!formData.sfz) {
+			wx.showToast({
+				title: '请输入身份证号',
+				icon: 'none'
+			})
+			return
+		}
+
+		if (!formData.phonenumber) {
+			wx.showToast({
+				title: '请输入手机号码',
+				icon: 'none'
+			})
+			return
+		}
+
+		if (!formData.phonecode) {
+			wx.showToast({
+				title: '请输入验证码',
+				icon: 'none'
+			})
+			return
+		}
+
+		if (!formData.pwd) {
+			wx.showToast({
+				title: '请输入密码',
+				icon: 'none'
+			})
+			return
+		}
+
+		if (!this.data.isCheck) {
+			wx.showToast({
+				title: '请先同意《信息安全平台用户协议》',
+				icon: 'none'
+			})
+			return
+		}
+
 		var data = {
 			token: wx.getStorageSync('token'),
 			// userName: formData.userName,

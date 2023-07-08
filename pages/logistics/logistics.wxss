@@ -151,8 +151,8 @@
   font-size: 24rpx;
   font-family: Microsoft YaHei;
   font-weight: 400;
-  border: 2px solid #1D6BE9;
-  background: #1D6BE9;
+  border: 2px solid #409DFD;
+  background: #409DFD;
   border-radius: 16rpx;
   color: #FFFFFF;
 }
@@ -192,5 +192,5 @@
   line-height: 70rpx;
   text-align: center;
   padding: 0 25rpx;
-  color: #1D6BE9;
+  color: #409DFD;
 }

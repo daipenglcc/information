@@ -24,7 +24,7 @@
 }
 
 .tab.active {
-  background: #1D6BE9;
+  background: #409DFD;
   color: #FFFFFF;
 }
 
@@ -75,7 +75,7 @@
   height: 98rpx;
   margin-left: 20rpx;
   text-align: center;
-  background: #1D6BE9;
+  background: #409DFD;
   border-radius: 8rpx;
   line-height: 98rpx;
 }

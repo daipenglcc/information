@@ -1,7 +1,7 @@
 <!--pages/addLogistics/addLogistics.wxml-->
 <view class="container">
   <view class="item_box_top"  bindtap="checkItemAll" >
-    <text class="t7" style="color: #1D6BE9;">全选</text>
+    <text class="t7" style="color: #409DFD;">全选</text>
     <image class="checkbox" src="{{isCheckAll ? '../images/radio_check.png' : '../images/radio_uncheck.png'}}"></image>
   </view>
   <view class="item_box" wx:for="{{mList}}" wx:key="this" data-index="{{index}}" bindtap="checkItem">
@@ -10,6 +10,6 @@
   </view>
 
   <view class="bottom-box">
-    <button bindtap="commit" class="submit_btn" type="primary" size="default" style="width: 600rpx; background: #1D6BE9;font-size: 32rpx;">确定</button>
+    <button bindtap="commit" class="submit_btn" type="primary" size="default" style="width: 600rpx; background: #409DFD;font-size: 32rpx;">确定</button>
   </view>
 </view>

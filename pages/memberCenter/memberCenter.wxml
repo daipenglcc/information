@@ -101,11 +101,11 @@
     <image class="logo" src="../images/logo.png"></image>
     <text class="name">网络信息安全系统平台</text>
     <text class="mark">获得您的公开信息（昵称、头像等）</text>
-    <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile" style=" background: #1D6BE9;color: white;"> 授权登录 </button>
-    <button wx:elif="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo" style=" background: #1D6BE9;color: white;"> 授权登录 </button>
+    <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile" style=" background: #409DFD;color: white;"> 授权登录 </button>
+    <button wx:elif="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo" style=" background: #409DFD;color: white;"> 授权登录 </button>
     <view wx:else> 请使用1.4.4及以上版本基础库 </view>
   </view>
 
-  <button bindtap="outlogin" class="submit_btn" type="primary" size="default" style="margin: 50rpx auto; background: #1D6BE9;width: 600rpx;font-size: 32rpx;">退出登录</button>
+  <button bindtap="outlogin" class="submit_btn" type="primary" size="default" style="margin: 50rpx auto; background: #409DFD;width: 600rpx;font-size: 32rpx;">退出登录</button>
 
 </view>

@@ -43,7 +43,7 @@
   </view>
 
   <navigator url="/pages/addAddress/addAddress">
-    <button class="submit_btn" type="primary" size="default" style="position: fixed;bottom: 20rpx;left: 75rpx; background: #1D6BE9;width: 600rpx;font-size: 32rpx;">+ 新建收货地址</button>
+    <button class="submit_btn" type="primary" size="default" style="position: fixed;bottom: 20rpx;left: 75rpx; background: #409DFD;width: 600rpx;font-size: 32rpx;">+ 新建收货地址</button>
   </navigator>
 
 </view>

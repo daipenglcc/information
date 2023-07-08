@@ -26,7 +26,7 @@
 
 
 
-          <button class="submit_btn" type="primary" form-type="submit" size="default" style="background: #1D6BE9;width: 600rpx;font-size: 32rpx;">登录</button>
+          <button class="submit_btn" type="primary" form-type="submit" size="default" style="background: #409DFD;width: 600rpx;font-size: 32rpx;">登录</button>
         </view>
       </form>
     </view>

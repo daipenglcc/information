@@ -1,3 +1,11 @@
+/*
+ * @Descripttion:
+ * @version: 1.0.1
+ * @Author: daipeng
+ * @Date: 2023-07-08 17:08:25
+ * @LastEditors: daipeng
+ * @LastEditTime: 2023-07-08 17:15:33
+ */
 // pages/personalData/personalData.js
 const app = getApp()
 const http = require('../../utils/http.js')
@@ -8,7 +16,8 @@ Page({
 	data: {
 		genderArray: ['男', '女'],
 		genderIndex: -1,
-		formData: {}
+		formData: {},
+		isCheck: false
 	},
 
 	/**
@@ -57,6 +66,17 @@ Page({
 			path: '/pages/splash/splash'
 		}
 	},
+	checkLogin(e) {
+		var isCheck = !this.data.isCheck
+		this.setData({
+			isCheck: isCheck
+		})
+	},
+	toSingPage() {
+		wx.navigateTo({
+			url: '../../pages/singlePage/singlePage'
+		})
+	},
 	getFormData() {
 		const that = this
 		http.httpGet({
@@ -78,8 +98,23 @@ Page({
 		})
 	},
 	submit(e) {
-		console.log(e.detail.value)
 		var formData = e.detail.value
+		if (!formData.userName) {
+			wx.showToast({
+				title: '请输入账号',
+				icon: 'none'
+			})
+			return
+		}
+
+		if (!formData.pwd) {
+			wx.showToast({
+				title: '请输入密码',
+				icon: 'none'
+			})
+			return
+		}
+
 		var data = {
 			token: wx.getStorageSync('token'),
 			// userName: formData.userName,
