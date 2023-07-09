@@ -9,10 +9,10 @@ Page({
 		genderArray: ['男', '女'],
 		genderIndex: -1,
 		formData: {
-			userName: wx.getStorageSync('userInfo').username,
-			name: wx.getStorageSync('userInfo').nickName,
-			sfz: wx.getStorageSync('userInfo').identity,
-			phonenumber: wx.getStorageSync('userInfo').phone
+			userName: '',
+			name: '',
+			sfz: '',
+			phonenumber: ''
 		},
 		isCheck: false,
 		countdown: '60'
@@ -22,7 +22,12 @@ Page({
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad(options) {
-		// this.getFormData()
+		this.setData({
+			['formData.userName']: wx.getStorageSync('userInfo').username,
+			['formData.name']: wx.getStorageSync('userInfo').nickName,
+			['formData.sfz']: wx.getStorageSync('userInfo').identity,
+			['formData.phonenumber']: wx.getStorageSync('userInfo').phone
+		})
 	},
 
 	/**
@@ -226,6 +231,13 @@ Page({
 		})
 	},
 	handleSendCode() {
+		// if (!this.data.formData.phonenumber) {
+		// 	wx.showToast({
+		// 		title: '请输入手机号码',
+		// 		icon: 'none'
+		// 	})
+		// 	return
+		// }
 		if (this.data.countdown != 60) {
 			return
 		}

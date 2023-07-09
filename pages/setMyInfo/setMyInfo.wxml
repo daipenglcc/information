@@ -19,7 +19,7 @@
 
            <view class="input_box">
             <text class="name">身份证号</text>
-            <input name="sfz" value="{{formData.sfz}}" class="input" type="text" placeholder="请输入身份证号" />
+            <input name="sfz" value="{{formData.sfz}}" class="input" maxlength="18" type="text" placeholder="请输入身份证号" />
           </view>
 
           <view class="input_box">
