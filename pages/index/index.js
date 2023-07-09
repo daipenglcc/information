@@ -26,7 +26,16 @@ Page({
 				// 获取unionId
 				try {
 					let unionId = await this.getUnionId()
-					let obj = { avatarUrl: res.userInfo.avatarUrl, nickName: res.userInfo.nickName, unionId }
+					let obj = {
+						avatarUrl: res.userInfo.avatarUrl,
+						nickName: res.userInfo.nickName,
+						unionId,
+						bind: false,
+						username: '',
+						smallId: '',
+						identity: '',
+						phone: ''
+					}
 					wx.setStorage({
 						key: 'userInfo',
 						data: obj,
@@ -86,11 +95,19 @@ Page({
 					unionId
 				},
 				complete: result => {
-					console.log('result', result)
 					let userInfo = result.data.data
 					if (userInfo.nickname) {
 						// 存在绑定信息，执行回显
-						let obj = { avatarUrl: userInfo.avar, nickName: userInfo.nickname, unionId }
+						let obj = {
+							avatarUrl: userInfo.avar,
+							nickName: userInfo.nickname,
+							unionId,
+							bind: userInfo.bind,
+							username: userInfo.username,
+							smallId: userInfo.id,
+							identity: userInfo.identity,
+							phone: userInfo.phone
+						}
 						console.log('obj', obj)
 						wx.setStorage({
 							key: 'userInfo',
@@ -147,18 +164,39 @@ Page({
 	},
 
 	setMyInfo() {
+		// 判断是否登录
+		if (!wx.getStorageSync('userInfo')) {
+			return wx.showToast({
+				title: '请先登录',
+				icon: 'none'
+			})
+		}
 		wx.navigateTo({
 			url: '../../pages/setMyInfo/setMyInfo'
 		})
 	},
 
 	bingCode() {
+		// 判断是否登录
+		if (!wx.getStorageSync('userInfo')) {
+			return wx.showToast({
+				title: '请先登录',
+				icon: 'none'
+			})
+		}
 		wx.navigateTo({
 			url: '../../pages/bingCode/bingCode'
 		})
 	},
 
 	goAddr() {
+		// 判断是否登录
+		if (!wx.getStorageSync('userInfo')) {
+			return wx.showToast({
+				title: '请先登录',
+				icon: 'none'
+			})
+		}
 		wx.navigateTo({
 			url: '../../pages/addressListManager/addressListManager'
 		})

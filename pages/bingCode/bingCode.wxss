@@ -38,9 +38,9 @@
 
 .input_box {
   width: 690rpx;
-  height: 70rpx;
+  height: 90rpx;
   display: flex;
-  margin-top: 20rpx;
+  /* margin-top: 20rpx; */
   flex-direction: row;
   align-items: center;
   border-bottom: 1rpx solid #ebebeb;

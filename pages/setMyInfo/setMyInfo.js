@@ -8,15 +8,21 @@ Page({
 	data: {
 		genderArray: ['男', '女'],
 		genderIndex: -1,
-		formData: {},
-		isCheck: false
+		formData: {
+			userName: wx.getStorageSync('userInfo').username,
+			name: wx.getStorageSync('userInfo').nickName,
+			sfz: wx.getStorageSync('userInfo').identity,
+			phonenumber: wx.getStorageSync('userInfo').phone
+		},
+		isCheck: false,
+		countdown: '60'
 	},
 
 	/**
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad(options) {
-		this.getFormData()
+		// this.getFormData()
 	},
 
 	/**
@@ -69,26 +75,26 @@ Page({
 			url: '../../pages/singlePage/singlePage'
 		})
 	},
-	getFormData() {
-		const that = this
-		http.httpGet({
-			loading: '加载中...',
-			url: '/api/user/getUser',
-			params: {
-				token: wx.getStorageSync('token')
-			},
-			complete: function (msg) {},
-			success: function (result) {
-				console.log(result)
+	// getFormData() {
+	// 	const that = this
+	// 	http.httpGet({
+	// 		loading: '加载中...',
+	// 		url: '/api/user/getUser',
+	// 		params: {
+	// 			token: wx.getStorageSync('token')
+	// 		},
+	// 		complete: function (msg) {},
+	// 		success: function (result) {
+	// 			console.log(result)
 
-				that.setData({
-					formData: result,
-					genderIndex: result.sex
-				})
-			},
-			fail: function (e) {}
-		})
-	},
+	// 			that.setData({
+	// 				formData: result,
+	// 				genderIndex: result.sex
+	// 			})
+	// 		},
+	// 		fail: function (e) {}
+	// 	})
+	// },
 	submit(e) {
 		var formData = e.detail.value
 		if (!formData.userName) {
@@ -131,14 +137,6 @@ Page({
 			return
 		}
 
-		if (!formData.pwd) {
-			wx.showToast({
-				title: '请输入密码',
-				icon: 'none'
-			})
-			return
-		}
-
 		if (!this.data.isCheck) {
 			wx.showToast({
 				title: '请先同意《信息安全平台用户协议》',
@@ -147,29 +145,116 @@ Page({
 			return
 		}
 
-		var data = {
-			token: wx.getStorageSync('token'),
-			// userName: formData.userName,
-			email: formData.email,
-			// phonenumber: formData.phonenumber,
-			sex: this.data.genderIndex
-		}
-		const that = this
-		http.httpPost({
-			loading: '提交中...',
-			url: '/api/user/resetUser',
-			params: data,
-			complete: function (msg) {},
-			success: function (result) {
-				console.log(result)
-				that.getFormData()
+		// 第一步验证手机号验证码
+		http.httpGet({
+			url: '/api/user/check/code/' + this.data.formData.phonenumber + '/' + formData.phonecode,
+			complete: result => {
+				console.log('result', result)
+				if (result.data.data) {
+					http.httpPost({
+						loading: '提交中...',
+						url: '/api/system/update',
+						params: {
+							unionId: wx.getStorageSync('userInfo').unionId,
+							identity: formData.sfz,
+							nickname: formData.name,
+							phone: formData.phonenumber,
+							username: formData.userName
+						},
+						complete: result => {
+							console.log('result', result)
+							http.httpGet({
+								url: '/api/system/user/detail',
+								params: {
+									unionId: wx.getStorageSync('userInfo').unionId
+								},
+								complete: result => {
+									let userInfo = result.data.data
+									if (userInfo.nickname) {
+										// 存在绑定信息，执行回显
+										let obj = {
+											avatarUrl: userInfo.avar,
+											nickName: userInfo.nickname,
+											unionId: wx.getStorageSync('userInfo').unionId,
+											bind: userInfo.bind,
+											username: userInfo.username,
+											smallId: userInfo.id,
+											identity: userInfo.identity,
+											phone: userInfo.phone
+										}
+										wx.setStorage({
+											key: 'userInfo',
+											data: obj,
+											success: () => {
+												wx.navigateBack({
+													delta: 1,
+													success: () => {
+														// 提交成功
+														wx.showToast({
+															title: '提交成功',
+															icon: 'none'
+														})
+													}
+												})
+											},
+											fail: error => {
+												// console.log('存储缓存失败', error)
+											}
+										})
+									}
+								},
+								fail: function (error) {}
+							})
+						},
+						fail: resule => {}
+					})
+				} else {
+					wx.showToast({
+						title: '验证码错误',
+						icon: 'none'
+					})
+				}
 			},
-			fail: function (e) {}
+			fail: function (error) {}
 		})
+
+		console.log('formData', formData)
 	},
 	bindGenderChange(e) {
 		this.setData({
 			genderIndex: e.detail.value
+		})
+	},
+	handleSendCode() {
+		if (this.data.countdown != 60) {
+			return
+		}
+		http.httpGet({
+			url: '/api/user/send/code/' + this.data.formData.phonenumber,
+			complete: result => {
+				console.log('result', result)
+				if (result.data.code == 200) {
+					wx.showToast({
+						title: '验证码已发送',
+						icon: 'none'
+					})
+
+					const timer = setInterval(() => {
+						if (this.data.countdown > 0) {
+							this.setData({
+								countdown: this.data.countdown - 1
+							})
+						} else {
+							// 倒计时结束，清除定时器
+							clearInterval(timer)
+							this.setData({
+								countdown: 60
+							})
+						}
+					}, 1000)
+				}
+			},
+			fail: function (error) {}
 		})
 	}
 })

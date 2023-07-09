@@ -1,14 +1,12 @@
 <!--pages/personalData/personalData.wxml-->
 <view class="container">
-
-
   <scroll-view scroll-y="true">
     <view>
       <view class="tips-text">
-        如果您已经在信息安全平台注册账号，可以在这里进行绑定。
+        {{!bind?"如果您已经在信息安全平台注册账号，可以在这里进行绑定。":"您已经绑定账号“"+username+"”"}}
       </view>
       <form bindsubmit="submit">
-        <view class="form_box">
+        <view class="form_box" wx:if="{{!bind}}">
           <view class="input_box">
             <text class="name">账号</text>
             <input name="userName" value="{{formData.userName}}" class="input" type="text" placeholder="请输入注册用户名或手机号码" />
@@ -16,11 +14,11 @@
 
           <view class="input_box">
             <text class="name">密码</text>
-            <input name="pwd" value="{{formData.pwd}}" maxlength="11" class="input" type="number" placeholder="请输入密码" />
+            <input name="pwd" value="{{formData.pwd}}" maxlength="11" class="input" type="password" placeholder="请输入密码" />
           </view>
         </view>
 
-        <button class="submit_btn" type="primary" form-type="submit" size="default" style="background: #409DFD;width: 400rpx;font-size: 30rpx;border-radius: 105px;margin-top: 236rpx;font-weight: 400;">确 定</button>
+        <button class="submit_btn" type="primary" form-type="submit" size="default" style="background: #409DFD;width: 400rpx;font-size: 30rpx;border-radius: 105px;margin-top: 236rpx;font-weight: 400;">{{!bind?"确 定":"返 回"}}</button>
       </form>
     </view>
   </scroll-view>

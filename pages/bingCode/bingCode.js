@@ -4,7 +4,7 @@
  * @Author: daipeng
  * @Date: 2023-07-08 17:08:25
  * @LastEditors: daipeng
- * @LastEditTime: 2023-07-08 17:15:33
+ * @LastEditTime: 2023-07-09 18:12:33
  */
 // pages/personalData/personalData.js
 const app = getApp()
@@ -17,14 +17,19 @@ Page({
 		genderArray: ['男', '女'],
 		genderIndex: -1,
 		formData: {},
-		isCheck: false
+		isCheck: false,
+		bind: false,
+		username: ''
 	},
 
 	/**
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad(options) {
-		this.getFormData()
+		this.setData({
+			bind: wx.getStorageSync('userInfo').bind,
+			username: wx.getStorageSync('userInfo').username
+		})
 	},
 
 	/**
@@ -77,27 +82,14 @@ Page({
 			url: '../../pages/singlePage/singlePage'
 		})
 	},
-	getFormData() {
-		const that = this
-		http.httpGet({
-			loading: '加载中...',
-			url: '/api/user/getUser',
-			params: {
-				token: wx.getStorageSync('token')
-			},
-			complete: function (msg) {},
-			success: function (result) {
-				console.log(result)
-
-				that.setData({
-					formData: result,
-					genderIndex: result.sex
-				})
-			},
-			fail: function (e) {}
-		})
-	},
 	submit(e) {
+		if (this.data.bind) {
+			wx.navigateBack({
+				delta: 1,
+				success: () => {}
+			})
+			return
+		}
 		var formData = e.detail.value
 		if (!formData.userName) {
 			wx.showToast({
@@ -115,24 +107,52 @@ Page({
 			return
 		}
 
-		var data = {
-			token: wx.getStorageSync('token'),
-			// userName: formData.userName,
-			email: formData.email,
-			// phonenumber: formData.phonenumber,
-			sex: this.data.genderIndex
-		}
 		const that = this
 		http.httpPost({
-			loading: '提交中...',
-			url: '/api/user/resetUser',
-			params: data,
-			complete: function (msg) {},
-			success: function (result) {
-				console.log(result)
-				that.getFormData()
+			loading: '绑定中...',
+			url: '/api/system/bind',
+			params: {
+				unionId: wx.getStorageSync('userInfo').unionId,
+				username: formData.userName,
+				password: formData.pwd
 			},
-			fail: function (e) {}
+			complete: result => {
+				let data = result.data
+				console.log('data', data)
+				if (data.code == 200) {
+					wx.showToast({
+						title: '账号绑定成功',
+						icon: 'none'
+					})
+					let obj = {
+						avatarUrl: wx.getStorageSync('userInfo').avatarUrl,
+						nickName: wx.getStorageSync('userInfo').nickName,
+						unionId: wx.getStorageSync('userInfo').unionId,
+						bind: data.data.bind,
+						username: data.data.username,
+						smallId: data.data.id,
+						identity: data.data.identity,
+						phone: data.data.phone
+					}
+					// 缓存绑定信息
+					wx.setStorage({
+						key: 'userInfo',
+						data: obj,
+						success: () => {
+							wx.navigateBack({
+								delta: 1,
+								success: () => {}
+							})
+						}
+					})
+				} else {
+					wx.showToast({
+						title: data.message,
+						icon: 'none'
+					})
+				}
+			},
+			fail: error => {}
 		})
 	},
 	bindGenderChange(e) {
