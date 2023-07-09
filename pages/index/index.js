@@ -1,6 +1,7 @@
 // index.js
 // 获取应用实例
 const app = getApp()
+const http = require('../../utils/http.js')
 Page({
 	/**
 	 * 页面的初始数据
@@ -35,6 +36,17 @@ Page({
 								nickName: res.userInfo.nickName,
 								avatarUrl: res.userInfo.avatarUrl
 							})
+
+							http.httpPost({
+								url: '/api/system/user/wechat',
+								params: {
+									avar: res.userInfo.avatarUrl,
+									name: res.userInfo.nickName,
+									unionId
+								},
+								complete: result => {},
+								fail: error => {}
+							})
 						},
 						fail: error => {
 							// console.log('存储缓存失败', error)
@@ -68,10 +80,40 @@ Page({
 			console.log('unionId', unionId)
 			// 获取unionId，判断是否已进行绑定
 			// 有绑定信息绑定or无绑定信息
-
+			http.httpGet({
+				url: '/api/system/user/detail',
+				params: {
+					unionId
+				},
+				complete: result => {
+					console.log('result', result)
+					let userInfo = result.data.data
+					if (userInfo.nickname) {
+						// 存在绑定信息，执行回显
+						let obj = { avatarUrl: userInfo.avar, nickName: userInfo.nickname, unionId }
+						console.log('obj', obj)
+						wx.setStorage({
+							key: 'userInfo',
+							data: obj,
+							success: () => {
+								this.setData({
+									unionId,
+									nickName: userInfo.nickname,
+									avatarUrl: userInfo.avar
+								})
+							},
+							fail: error => {
+								// console.log('存储缓存失败', error)
+							}
+						})
+					}
+				},
+				fail: function (error) {}
+			})
 			// 初始化完成
 			wx.hideLoading()
 		} catch (error) {
+			console.log('error', error)
 			wx.showToast({
 				title: '初始化登录失败',
 				icon: 'none'
@@ -84,14 +126,20 @@ Page({
 	getUnionId() {
 		return new Promise((resolve, reject) => {
 			wx.login({
-				success: function (res) {
-					console.log('res', res)
-					let code = res.code
-					// 用code换取unionId
-
-					resolve('unionId')
+				success: res => {
+					http.httpGet({
+						url: '/api/system/login',
+						params: {
+							code: res.code
+						},
+						complete: function (result) {
+							resolve(result.data.data.unionId)
+						},
+						fail: function (error) {}
+					})
 				},
 				fail: error => {
+					console.log('error', error)
 					reject('登录失败')
 				}
 			})
@@ -128,7 +176,6 @@ Page({
 		wx.getStorage({
 			key: 'userInfo',
 			success: res => {
-				console.log('XXXXXX2', res)
 				this.setData({
 					unionId: res.data.unionId,
 					nickName: res.data.nickName,

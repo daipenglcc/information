@@ -24,18 +24,18 @@ u.CODE_SUCCESS = '0' //接口请求成功的CODE
 u.CODE_TOKEN_TIMEOUT = '401' //用户token过期CODE
 
 // 根据环境变量设置请求API路径
-var apiUrl = 'https://wx.wuxianliuliang.cn/'
+var apiUrl = 'http://121.37.110.240:8181'
 let accountInfo = wx.getAccountInfoSync()
 let nowEnv = accountInfo.miniProgram.envVersion
 switch (nowEnv) {
 	case 'develop': // 开发版环境
-		apiUrl = 'https://wx.wuxianliuliang.cn/'
+		apiUrl = 'http://121.37.110.240:8181'
 		break
 	case 'trial': // 体验版环境
-		apiUrl = 'https://wx.wuxianliuliang.cn/'
+		apiUrl = 'http://121.37.110.240:8181'
 		break
 	case 'release': // 正式版环境
-		apiUrl = 'https://wx.wuxianliuliang.cn/'
+		apiUrl = 'http://121.37.110.240:8181'
 		break
 }
 
@@ -56,7 +56,7 @@ u.requestInterceptor = function (reqParams) {
  *
  */
 u.handleResponse = function (result, reqParams) {
-	console.log('请求结果 : ', result)
+	// console.log('请求结果 : ', result)
 	if (result.statusCode == u.statusCode_success) {
 		u.httpModel = result.data
 		if (u.httpModel.code == u.CODE_SUCCESS) {
@@ -128,7 +128,7 @@ u.request = function (reqParams, requestType) {
 	} else if (requestType == u.DELETE) {
 		method = u.DELETE
 	}
-	console.log(u)
+	// console.log(u)
 
 	//打印请求地址
 	u.logRequestUrl(reqParams)
@@ -266,7 +266,7 @@ u.logRequestUrl = function (requestParams) {
 
 		i++
 	}
-	console.log(url)
+	// console.log(url)
 }
 
 /**
