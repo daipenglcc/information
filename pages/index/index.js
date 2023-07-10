@@ -263,7 +263,7 @@ Page({
 
 	setMyInfo() {
 		// 判断是否登录
-		if (!wx.getStorageSync('userInfo')) {
+		if (!wx.getStorageSync('userInfo').nickName && !wx.getStorageSync('userInfo').avatarUrl) {
 			return wx.showToast({
 				title: '请先登录',
 				icon: 'none'
@@ -276,7 +276,7 @@ Page({
 
 	bingCode() {
 		// 判断是否登录
-		if (!wx.getStorageSync('userInfo')) {
+		if (!wx.getStorageSync('userInfo').nickName && !wx.getStorageSync('userInfo').avatarUrl) {
 			return wx.showToast({
 				title: '请先登录',
 				icon: 'none'
@@ -289,7 +289,7 @@ Page({
 
 	goAddr() {
 		// 判断是否登录
-		if (!wx.getStorageSync('userInfo')) {
+		if (!wx.getStorageSync('userInfo').nickName && !wx.getStorageSync('userInfo').avatarUrl) {
 			return wx.showToast({
 				title: '请先登录',
 				icon: 'none'
@@ -312,15 +312,20 @@ Page({
 		wx.getStorage({
 			key: 'userInfo',
 			success: res => {
-				this.setData({
-					unionId: res.data.unionId,
-					nickName: res.data.nickName,
-					avatarUrl: res.data.avatarUrl
-				})
+				if (res.data.avatarUrl && res.data.nickName) {
+					this.setData({
+						unionId: res.data.unionId,
+						nickName: res.data.nickName,
+						avatarUrl: res.data.avatarUrl
+					})
+				} else {
+					// 本地无存储，执行数据库存储校验
+					this.getSqlData()
+				}
 			},
 			fail: error => {
 				// 本地无存储，执行数据库存储校验
-				// this.getSqlData()
+				this.getSqlData()
 			}
 		})
 	},

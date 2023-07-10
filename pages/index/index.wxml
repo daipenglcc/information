@@ -9,7 +9,7 @@
       <view class="userinfo">
         <!--<text class="login-text" >{{!nickName ? '登录/注册' : nickName}}</text>-->
         <!--<text class="login-id" wx:if="{{nickName}}">ID:1233333</text>-->
-        <input type="nickname" class="login-text" placeholder="注册/登录" bindblur="handleInputComplete"/>
+        <input type="nickname" value="{{ nickName }}" class="login-text" placeholder="注册/登录" bindblur="handleInputComplete"/>
       </view>
     </view>
     <view class="right-section">
