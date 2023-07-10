@@ -16,6 +16,104 @@ Page({
 	 */
 	onLoad: function (options) {},
 
+	async onChooseAvatar(e) {
+		const { avatarUrl } = e.detail
+		// 信息保存
+		try {
+			let unionId = await this.getUnionId()
+			let obj = {
+				avatarUrl: avatarUrl,
+				nickName: wx.getStorageSync('userInfo').nickName || '',
+				unionId,
+				bind: false,
+				username: '',
+				smallId: '',
+				identity: '',
+				phone: ''
+			}
+			wx.setStorage({
+				key: 'userInfo',
+				data: obj,
+				success: () => {
+					this.setData({
+						unionId,
+						nickName: wx.getStorageSync('userInfo').nickName || '',
+						avatarUrl: avatarUrl
+					})
+
+					http.httpPost({
+						url: '/api/system/user/wechat',
+						params: {
+							avar: avatarUrl,
+							name: wx.getStorageSync('userInfo').nickName || '',
+							unionId
+						},
+						complete: result => {},
+						fail: error => {}
+					})
+				},
+				fail: error => {
+					// console.log('存储缓存失败', error)
+				}
+			})
+		} catch (error) {
+			wx.showToast({
+				title: '登录失败',
+				icon: 'none'
+			})
+			return
+		}
+	},
+
+	async handleInputComplete(event) {
+		const nickName = event.detail.value
+		console.log('输入完成：', nickName)
+		try {
+			let unionId = await this.getUnionId()
+			let obj = {
+				avatarUrl: wx.getStorageSync('userInfo').avatarUrl || '',
+				nickName: nickName,
+				unionId,
+				bind: false,
+				username: '',
+				smallId: '',
+				identity: '',
+				phone: ''
+			}
+			wx.setStorage({
+				key: 'userInfo',
+				data: obj,
+				success: () => {
+					this.setData({
+						unionId,
+						nickName: nickName,
+						avatarUrl: wx.getStorageSync('userInfo').avatarUrl || ''
+					})
+
+					http.httpPost({
+						url: '/api/system/user/wechat',
+						params: {
+							avar: wx.getStorageSync('userInfo').avatarUrl || '',
+							name: nickName,
+							unionId
+						},
+						complete: result => {},
+						fail: error => {}
+					})
+				},
+				fail: error => {
+					// console.log('存储缓存失败', error)
+				}
+			})
+		} catch (error) {
+			wx.showToast({
+				title: '登录失败',
+				icon: 'none'
+			})
+			return
+		}
+	},
+
 	getUserInfo() {
 		if (this.data.nickName) {
 			return
@@ -222,7 +320,7 @@ Page({
 			},
 			fail: error => {
 				// 本地无存储，执行数据库存储校验
-				this.getSqlData()
+				// this.getSqlData()
 			}
 		})
 	},
