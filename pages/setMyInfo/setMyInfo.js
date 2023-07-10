@@ -82,6 +82,13 @@ Page({
 			url: '../../pages/singlePage/singlePage'
 		})
 	},
+	handleInput(event) {
+		const value = event.detail.value
+		console.log('value', value)
+		this.setData({
+			'formData.phonenumber': value // 更新表单数据中的手机号字段
+		})
+	},
 	// getFormData() {
 	// 	const that = this
 	// 	http.httpGet({
@@ -154,7 +161,7 @@ Page({
 
 		// 第一步验证手机号验证码
 		http.httpGet({
-			url: '/api/user/check/code/' + this.data.formData.phonenumber + '/' + formData.phonecode,
+			url: '/api/user/check/code/' + formData.phonenumber + '/' + formData.phonecode,
 			complete: result => {
 				console.log('result', result)
 				if (result.data.data) {
@@ -233,13 +240,14 @@ Page({
 		})
 	},
 	handleSendCode() {
-		// if (!this.data.formData.phonenumber) {
-		// 	wx.showToast({
-		// 		title: '请输入手机号码',
-		// 		icon: 'none'
-		// 	})
-		// 	return
-		// }
+		console.log('this.data.formData.phonenumber', this.data.formData.phonenumber)
+		if (!this.data.formData.phonenumber) {
+			wx.showToast({
+				title: '请输入手机号码',
+				icon: 'none'
+			})
+			return
+		}
 		if (this.data.countdown != 60) {
 			return
 		}
