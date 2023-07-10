@@ -24,18 +24,18 @@ u.CODE_SUCCESS = '0' //接口请求成功的CODE
 u.CODE_TOKEN_TIMEOUT = '401' //用户token过期CODE
 
 // 根据环境变量设置请求API路径
-var apiUrl = 'http://121.37.110.240:8181'
+var apiUrl = 'https://server.wuxianliuliang.cn'
 let accountInfo = wx.getAccountInfoSync()
 let nowEnv = accountInfo.miniProgram.envVersion
 switch (nowEnv) {
 	case 'develop': // 开发版环境
-		apiUrl = 'http://121.37.110.240:8181'
+		apiUrl = 'https://server.wuxianliuliang.cn'
 		break
 	case 'trial': // 体验版环境
-		apiUrl = 'http://121.37.110.240:8181'
+		apiUrl = 'https://server.wuxianliuliang.cn'
 		break
 	case 'release': // 正式版环境
-		apiUrl = 'http://121.37.110.240:8181'
+		apiUrl = 'https://server.wuxianliuliang.cn'
 		break
 }
 

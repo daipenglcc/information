@@ -270,12 +270,12 @@ Page({
 			})
 		}
 
-		if (!wx.getStorageSync('userInfo').bind) {
-			return wx.showToast({
-				title: '请先完成安全信息平台账号绑定',
-				icon: 'none'
-			})
-		}
+		// if (!wx.getStorageSync('userInfo').bind) {
+		// 	return wx.showToast({
+		// 		title: '请先完成安全信息平台账号绑定',
+		// 		icon: 'none'
+		// 	})
+		// }
 
 		wx.navigateTo({
 			url: '../../pages/setMyInfo/setMyInfo'
@@ -317,10 +317,11 @@ Page({
 	 * 生命周期函数--监听页面显示
 	 */
 	onShow: function () {
+		console.log('获取详情')
 		wx.getStorage({
 			key: 'userInfo',
 			success: res => {
-				if (res.data.avatarUrl && res.data.nickName) {
+				if (res.data.avatarUrl && res.data.nickName && res.data.username) {
 					this.setData({
 						unionId: res.data.unionId,
 						nickName: res.data.nickName,

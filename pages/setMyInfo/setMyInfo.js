@@ -15,7 +15,8 @@ Page({
 			phonenumber: ''
 		},
 		isCheck: false,
-		countdown: '60'
+		countdown: '60',
+		bind: false
 	},
 
 	/**
@@ -26,7 +27,8 @@ Page({
 			['formData.userName']: wx.getStorageSync('userInfo').username,
 			['formData.name']: wx.getStorageSync('userInfo').nickName,
 			['formData.sfz']: wx.getStorageSync('userInfo').identity,
-			['formData.phonenumber']: wx.getStorageSync('userInfo').phone
+			['formData.phonenumber']: wx.getStorageSync('userInfo').phone,
+			bind: wx.getStorageSync('userInfo').bind
 		})
 	},
 
