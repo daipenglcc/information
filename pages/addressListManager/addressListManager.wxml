@@ -1,7 +1,7 @@
 <!--pages/addressListManager/addressListManager.wxml-->
 <view class="container">
   <view class="mList">
-    <view class="item" wx:for="{{mList}}" wx:key="this">
+    <view class="item" wx:for="{{mList}}" wx:for-index="index" wx:key="this">
       <view class="box1">
         <text class="t1">{{item.name}}</text>
         <text class="t1">{{item.phone}}</text>
@@ -17,7 +17,7 @@
         </view>
         <view class="box5">
           <image class="qrcode" src="{{item.qrCode ? item.qrCode : ''}}" data-img="{{item.qrCode}}" bindtap="preview"></image>
-          <canvas class="qrcode" canvas-id="{{'testCanvas0'}}"  style="height: 100rpx;width: 100rpx;" type="2d" id="{{'testCanvas0'}}"></canvas>
+          <canvas class="qrcode" canvas-id="testCanvas{{index}}"  style="height: 100rpx;width: 100rpx;" type="2d" id="testCanvas{{index}}"></canvas>
         </view>
       </view>
 

@@ -96,39 +96,80 @@ Page({
 
 				let arr = result.data.data.records
 
-				// for (const index in arr) {
-				// 	if (Object.hasOwnProperty.call(arr, index)) {
-				// 		const element = arr[index]
-				// 		var id = 'testCanvas' + index
-				// 		console.log(index)
-				// 		// console.log(element.addressShow)
-				// 		this.drawQr(element)
-				// 	}
-				// }
+				for (const index in arr) {
+					this.drawQr2(index)
+
+					// 	if (Object.hasOwnProperty.call(arr, index)) {
+					// 		const element = arr[index]
+					// 		var id = 'testCanvas' + index
+					// 		console.log(index)
+					// 		// console.log(element.addressShow)
+					// 		this.2(element)
+					// 	}
+				}
 			},
 			fail: function (e) {}
 		})
 	},
-	drawQr(element) {
-		wx.createSelectorQuery()
-			.select('testCanvas0') // 在 WXML 中填入的 id
-			.node(({ node: canvas }) => {
-				var canvas = element.node
-				const context = canvas.getContext('2d')
+	drawQr2(index) {
+		// wx.createSelectorQuery()
+		// 	.select('testCanvas0') // 在 WXML 中填入的 id
+		// 	.node(({ node: canvas }) => {
+		// 		var canvas = element.node
+		// 		const context = canvas.getContext('2d')
 
-				console.log(999999)
-				// 调用方法drawQrcode生成二维码
+		// 		console.log(999999)
+		// 		// 调用方法2code生成二维码
+		// 		2code({
+		// 			canvas: canvas,
+		// 			canvasId: context,
+		// 			width: 100,
+		// 			padding: 0,
+		// 			background: '#ffffff',
+		// 			foreground: '#000000',
+		// 			text: 'element.addressShow'
+		// 		})
+		// 	})
+		// 	.exec()
+		const query = wx.createSelectorQuery()
+		query
+			.select('#testCanvas0')
+			.fields({
+				node: true,
+				size: true
+			})
+			.exec(res => {
+				var canvas = res[0].node
+
+				// 调用方法2code生成二维码
 				drawQrcode({
 					canvas: canvas,
-					canvasId: context,
-					width: 100,
-					padding: 0,
+					canvasId: 'myQrcode',
+					width: 260,
+					padding: 30,
 					background: '#ffffff',
 					foreground: '#000000',
-					text: 'element.addressShow'
+					text: this.data.mList[index].addressEncode
+				})
+
+				// 获取临时路径（得到之后，想干嘛就干嘛了）
+				wx.canvasToTempFilePath({
+					canvasId: 'myQrcode',
+					canvas: canvas,
+					x: 0,
+					y: 0,
+					width: 260,
+					height: 260,
+					destWidth: 260,
+					destHeight: 260,
+					success(res) {
+						console.log('二维码临时路径：', res.tempFilePath)
+					},
+					fail(res) {
+						console.error(res)
+					}
 				})
 			})
-			.exec()
 	},
 	edit(e) {
 		wx.navigateTo({
