@@ -16,7 +16,7 @@
           <text class="t4" data-txt="{{item.customerKey}}" bindtap="copyText" style="margin : 20rpx 0;line-height: 35rpx;" >{{item.id}}</text>
         </view>
         <view class="box5">
-          <image class="qrcode" src="{{item.qrCode ? item.qrCode : ''}}" data-img="{{item.qrCode}}" bindtap="preview"></image>
+          <!--<image class="qrcode" src="{{item.qrCode ? item.qrCode : ''}}" data-img="{{item.qrCode}}" bindtap="preview"></image>-->
           <canvas class="qrcode" canvas-id="testCanvas{{index}}"  style="height: 100rpx;width: 100rpx;" type="2d" id="testCanvas{{index}}"></canvas>
         </view>
       </view>

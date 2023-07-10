@@ -6,14 +6,15 @@ Page({
 	 * 页面的初始数据
 	 */
 	data: {
+		id: '',
 		region: ['山东省', '济南市', '历下区', ''],
 		customItem: '全部',
 		provinceArray: [],
 		cityArray: [],
 		areaArray: [],
 		xiangArray: [],
-		multiArray: [[], [], [], []],
-		multiIndex: [0, 0, 0, 0],
+		multiArray: [],
+		multiIndex: [],
 		edit: false,
 		formData: {
 			province: '',
@@ -40,11 +41,22 @@ Page({
 			})
 		}
 		if (options.item) {
+			let getData = JSON.parse(options.item)
+
+			console.log('getData', getData)
+
 			this.setData({
-				formData: JSON.parse(options.item)
+				['formData.customerName']: getData.name,
+				['formData.phone']: getData.phone,
+				['formData.area']: getData.area,
+				['formData.address']: getData.address,
+				['formData.addressShow']: getData.streetNumber,
+				multiIndex: JSON.parse(getData.area).join('、'),
+				multiArray: JSON.parse(getData.area),
+				id: getData.id
 			})
 		}
-		this.getSheng()
+		// this.getSheng()
 	},
 
 	/**
@@ -89,196 +101,197 @@ Page({
 	bindMultiPickerChange: function (e) {
 		console.log('picker发送选择改变，携带值为', e.detail.value)
 		this.setData({
-			multiIndex: e.detail.value
+			multiArray: e.detail.value,
+			multiIndex: e.detail.value.join('、')
 		})
-		const that = this
-		let formData = that.data.formData
-		formData.province = that.data.multiArray[0][that.data.multiIndex[0]].name
-		formData.provinceCode = that.data.multiArray[0][that.data.multiIndex[0]].id
-		formData.city = that.data.multiArray[1][that.data.multiIndex[1]].name
-		formData.cityCode = that.data.multiArray[1][that.data.multiIndex[1]].id
-		formData.area = that.data.multiArray[2][that.data.multiIndex[2]].name
-		formData.areaCode = that.data.multiArray[2][that.data.multiIndex[2]].id
-		formData.street = that.data.multiArray[3][that.data.multiIndex[3]].name
-		formData.streetCode = that.data.multiArray[3][that.data.multiIndex[3]].id
-		this.setData({
-			formData: formData
-		})
+		// const that = this
+		// let formData = that.data.formData
+		// formData.province = that.data.multiArray[0][that.data.multiIndex[0]].name
+		// formData.provinceCode = that.data.multiArray[0][that.data.multiIndex[0]].id
+		// formData.city = that.data.multiArray[1][that.data.multiIndex[1]].name
+		// formData.cityCode = that.data.multiArray[1][that.data.multiIndex[1]].id
+		// formData.area = that.data.multiArray[2][that.data.multiIndex[2]].name
+		// formData.areaCode = that.data.multiArray[2][that.data.multiIndex[2]].id
+		// formData.street = that.data.multiArray[3][that.data.multiIndex[3]].name
+		// formData.streetCode = that.data.multiArray[3][that.data.multiIndex[3]].id
+		// this.setData({
+		// 	formData: formData
+		// })
 	},
 
-	bindMultiPickerColumnChange: function (e) {
-		console.log('修改的列为', e.detail.column, '，值为', e.detail.value)
-		const that = this
-		var data = {
-			multiArray: this.data.multiArray,
-			multiIndex: this.data.multiIndex
-		}
-		data.multiIndex[e.detail.column] = e.detail.value
-		switch (e.detail.column) {
-			case 0:
-				var item = data.multiArray[0][e.detail.value]
-				console.log('name', item.id)
-				console.log('name', item)
-				var formDataId = item.id
-				that.getShi(formDataId)
-				break
-			case 1:
-				var item = data.multiArray[1][e.detail.value]
-				console.log('name', item.id)
-				console.log('name', item)
-				var formDataId = item.id
-				that.getqu(formDataId)
-				break
-			case 2:
-				var item = data.multiArray[2][e.detail.value]
-				console.log('name', item.id)
-				console.log('name', item)
-				var formDataId = item.id
-				that.getxiang(formDataId)
-				break
-		}
-		console.log(data.multiIndex)
-		this.setData(data)
-	},
-	bindRegionChange: function (e) {
-		console.log('picker发送选择改变，携带值为', e.detail.value)
-		this.setData({
-			region: e.detail.value
-		})
-	},
-	getSheng() {
-		const that = this
-		http.httpGet({
-			loading: '加载中...',
-			url: '/api/wxllCustomer/getArea',
-			params: {
-				token: wx.getStorageSync('token'),
-				pid: 0,
-				level: 1
-			},
-			complete: function (msg) {},
-			success: function (result) {
-				console.log(result)
+	// bindMultiPickerColumnChange: function (e) {
+	// 	console.log('修改的列为', e.detail.column, '，值为', e.detail.value)
+	// 	const that = this
+	// 	var data = {
+	// 		multiArray: this.data.multiArray,
+	// 		multiIndex: this.data.multiIndex
+	// 	}
+	// 	data.multiIndex[e.detail.column] = e.detail.value
+	// 	switch (e.detail.column) {
+	// 		case 0:
+	// 			var item = data.multiArray[0][e.detail.value]
+	// 			console.log('name', item.id)
+	// 			console.log('name', item)
+	// 			var formDataId = item.id
+	// 			that.getShi(formDataId)
+	// 			break
+	// 		case 1:
+	// 			var item = data.multiArray[1][e.detail.value]
+	// 			console.log('name', item.id)
+	// 			console.log('name', item)
+	// 			var formDataId = item.id
+	// 			that.getqu(formDataId)
+	// 			break
+	// 		case 2:
+	// 			var item = data.multiArray[2][e.detail.value]
+	// 			console.log('name', item.id)
+	// 			console.log('name', item)
+	// 			var formDataId = item.id
+	// 			that.getxiang(formDataId)
+	// 			break
+	// 	}
+	// 	console.log(data.multiIndex)
+	// 	this.setData(data)
+	// },
+	// bindRegionChange: function (e) {
+	// 	console.log('picker发送选择改变，携带值为', e.detail.value)
+	// 	this.setData({
+	// 		region: e.detail.value
+	// 	})
+	// },
+	// getSheng() {
+	// 	const that = this
+	// 	http.httpGet({
+	// 		loading: '加载中...',
+	// 		url: '/api/wxllCustomer/getArea',
+	// 		params: {
+	// 			token: wx.getStorageSync('token'),
+	// 			pid: 0,
+	// 			level: 1
+	// 		},
+	// 		complete: function (msg) {},
+	// 		success: function (result) {
+	// 			console.log(result)
 
-				that.setData({
-					provinceArray: result
-				})
-				if (result[0]) {
-					that.getShi(result[0].id)
-				} else {
-					const list = [{ id: '0', name: '全部' }]
-					that.setData({
-						cityArray: list,
-						areaArray: list,
-						xiangArray: list,
-						multiArray: [that.data.provinceArray, list, list, list]
-					})
-				}
-			},
-			fail: function (e) {}
-		})
-	},
-	getShi(pid) {
-		console.log('pid==>', pid)
-		const that = this
-		http.httpGet({
-			loading: '加载中...',
-			url: '/api/wxllCustomer/getArea',
-			params: {
-				pid: pid,
-				level: 2
-			},
-			complete: function (msg) {},
-			success: function (result) {
-				console.log('getShi', result)
+	// 			that.setData({
+	// 				provinceArray: result
+	// 			})
+	// 			if (result[0]) {
+	// 				that.getShi(result[0].id)
+	// 			} else {
+	// 				const list = [{ id: '0', name: '全部' }]
+	// 				that.setData({
+	// 					cityArray: list,
+	// 					areaArray: list,
+	// 					xiangArray: list,
+	// 					multiArray: [that.data.provinceArray, list, list, list]
+	// 				})
+	// 			}
+	// 		},
+	// 		fail: function (e) {}
+	// 	})
+	// },
+	// getShi(pid) {
+	// 	console.log('pid==>', pid)
+	// 	const that = this
+	// 	http.httpGet({
+	// 		loading: '加载中...',
+	// 		url: '/api/wxllCustomer/getArea',
+	// 		params: {
+	// 			pid: pid,
+	// 			level: 2
+	// 		},
+	// 		complete: function (msg) {},
+	// 		success: function (result) {
+	// 			console.log('getShi', result)
 
-				if (result[0]) {
-					that.setData({
-						cityArray: result
-					})
-					that.getqu(result[0].id)
-				} else {
-					const list = [{ id: '0', name: '全部' }]
-					var multiIndex = [that.data.multiIndex[0], 0, 0, 0]
-					that.setData({
-						cityArray: list,
-						areaArray: list,
-						xiangArray: list,
-						multiArray: [that.data.provinceArray, list, list, list],
-						multiIndex: multiIndex
-					})
-				}
-			},
-			fail: function (e) {}
-		})
-	},
-	getqu(pid) {
-		const that = this
-		http.httpGet({
-			loading: '加载中...',
-			url: '/api/wxllCustomer/getArea',
-			params: {
-				pid: pid,
-				level: 3
-			},
-			complete: function (msg) {},
-			success: function (result) {
-				console.log(result)
+	// 			if (result[0]) {
+	// 				that.setData({
+	// 					cityArray: result
+	// 				})
+	// 				that.getqu(result[0].id)
+	// 			} else {
+	// 				const list = [{ id: '0', name: '全部' }]
+	// 				var multiIndex = [that.data.multiIndex[0], 0, 0, 0]
+	// 				that.setData({
+	// 					cityArray: list,
+	// 					areaArray: list,
+	// 					xiangArray: list,
+	// 					multiArray: [that.data.provinceArray, list, list, list],
+	// 					multiIndex: multiIndex
+	// 				})
+	// 			}
+	// 		},
+	// 		fail: function (e) {}
+	// 	})
+	// },
+	// getqu(pid) {
+	// 	const that = this
+	// 	http.httpGet({
+	// 		loading: '加载中...',
+	// 		url: '/api/wxllCustomer/getArea',
+	// 		params: {
+	// 			pid: pid,
+	// 			level: 3
+	// 		},
+	// 		complete: function (msg) {},
+	// 		success: function (result) {
+	// 			console.log(result)
 
-				if (result[0]) {
-					that.setData({
-						areaArray: result
-					})
-					that.getxiang(result[0].id)
-				} else {
-					const list = [{ id: '0', name: '全部' }]
-					var multiIndex = [that.data.multiIndex[0], that.data.multiIndex[1], 0, 0]
-					that.setData({
-						areaArray: list,
-						xiangArray: list,
-						multiArray: [that.data.provinceArray, that.data.cityArray, list, list],
-						multiIndex: multiIndex
-					})
-				}
-			},
-			fail: function (e) {}
-		})
-	},
-	getxiang(pid) {
-		const that = this
-		http.httpGet({
-			loading: '加载中...',
-			url: '/api/wxllCustomer/getArea',
-			params: {
-				pid: pid,
-				level: 4
-			},
-			complete: function (msg) {},
-			success: function (result) {
-				console.log(result)
+	// 			if (result[0]) {
+	// 				that.setData({
+	// 					areaArray: result
+	// 				})
+	// 				that.getxiang(result[0].id)
+	// 			} else {
+	// 				const list = [{ id: '0', name: '全部' }]
+	// 				var multiIndex = [that.data.multiIndex[0], that.data.multiIndex[1], 0, 0]
+	// 				that.setData({
+	// 					areaArray: list,
+	// 					xiangArray: list,
+	// 					multiArray: [that.data.provinceArray, that.data.cityArray, list, list],
+	// 					multiIndex: multiIndex
+	// 				})
+	// 			}
+	// 		},
+	// 		fail: function (e) {}
+	// 	})
+	// },
+	// getxiang(pid) {
+	// 	const that = this
+	// 	http.httpGet({
+	// 		loading: '加载中...',
+	// 		url: '/api/wxllCustomer/getArea',
+	// 		params: {
+	// 			pid: pid,
+	// 			level: 4
+	// 		},
+	// 		complete: function (msg) {},
+	// 		success: function (result) {
+	// 			console.log(result)
 
-				if (result[0]) {
-					that.setData({
-						xiangArray: result,
-						multiArray: [that.data.provinceArray, that.data.cityArray, that.data.areaArray, result]
-					})
-				} else {
-					const list = [{ id: '0', name: '全部' }]
-					var multiIndex = [that.data.multiIndex[0], that.data.multiIndex[1], that.data.multiIndex[2], 0]
-					that.setData({
-						xiangArray: list,
-						multiArray: [that.data.provinceArray, that.data.cityArray, that.data.areaArray, list],
-						multiIndex: multiIndex
-					})
-				}
-			},
-			fail: function (e) {}
-		})
-	},
+	// 			if (result[0]) {
+	// 				that.setData({
+	// 					xiangArray: result,
+	// 					multiArray: [that.data.provinceArray, that.data.cityArray, that.data.areaArray, result]
+	// 				})
+	// 			} else {
+	// 				const list = [{ id: '0', name: '全部' }]
+	// 				var multiIndex = [that.data.multiIndex[0], that.data.multiIndex[1], that.data.multiIndex[2], 0]
+	// 				that.setData({
+	// 					xiangArray: list,
+	// 					multiArray: [that.data.provinceArray, that.data.cityArray, that.data.areaArray, list],
+	// 					multiIndex: multiIndex
+	// 				})
+	// 			}
+	// 		},
+	// 		fail: function (e) {}
+	// 	})
+	// },
 	submit(e) {
 		console.log(e.detail.value)
 		const that = this
-		let { address, addressShow, addressbase, idNumber, customerName, phone } = e.detail.value
+		let { address, addressbase, idNumber, customerName, phone } = e.detail.value
 
 		if (!customerName) {
 			wx.showToast({
@@ -294,13 +307,13 @@ Page({
 			})
 			return
 		}
-		if (!idNumber) {
-			wx.showToast({
-				title: '请输入身份证号码',
-				icon: 'none'
-			})
-			return
-		}
+		// if (!idNumber) {
+		// 	wx.showToast({
+		// 		title: '请输入身份证号码',
+		// 		icon: 'none'
+		// 	})
+		// 	return
+		// }
 
 		if (!addressbase) {
 			wx.showToast({
@@ -316,56 +329,36 @@ Page({
 			})
 			return
 		}
+
+		let mainData = e.detail.value
 		var data = {
-			token: wx.getStorageSync('token'),
-			addressShow,
-			idNumber,
-			customerName,
-			phone,
-			address,
-			idType: 'IDCard',
-			province: that.data.multiArray[0][that.data.multiIndex[0]].name,
-			provinceCode: that.data.multiArray[0][that.data.multiIndex[0]].id,
-			city: that.data.multiArray[1][that.data.multiIndex[1]].name,
-			cityCode: that.data.multiArray[1][that.data.multiIndex[1]].id,
-			area: that.data.multiArray[2][that.data.multiIndex[2]].name,
-			areaCode: that.data.multiArray[2][that.data.multiIndex[2]].id,
-			street: that.data.multiArray[3][that.data.multiIndex[3]].name,
-			streetCode: that.data.multiArray[3][that.data.multiIndex[3]].id
+			unionId: wx.getStorageSync('userInfo').unionId,
+			address: mainData.address,
+			areaList: this.data.multiArray,
+			name: mainData.customerName,
+			phone: mainData.phone,
+			streetNumber: mainData.addressShow
 		}
 		if (this.data.edit) {
-			var data = {
-				token: wx.getStorageSync('token'),
-				addressShow,
-				idNumber,
-				customerName,
-				phone,
-				address,
-				customerId: this.data.formData.customerId,
-				idType: 'IDCard',
-				province: that.data.formData.province,
-				provinceCode: that.data.formData.provinceCode,
-				city: that.data.formData.city,
-				cityCode: that.data.formData.cityCode,
-				area: that.data.formData.area,
-				areaCode: that.data.formData.areaCode,
-				street: that.data.formData.street,
-				streetCode: that.data.formData.streetCode
-			}
+			data = { id: this.data.id, ...data }
 		}
 
 		console.log(data)
 		http.httpPost({
 			loading: '提交中...',
-			url: '/api/wxllCustomer',
+			url: '/api/address/edit',
 			params: data,
-			complete: function (msg) {},
-			success: function (result) {
-				console.log(result)
+			complete: result => {
+				console.log('result', result)
+				wx.showToast({
+					title: '提交成功',
+					icon: 'none'
+				})
 				wx.navigateBack({
 					delta: 1
 				})
 			},
+			success: result => {},
 			fail: function (e) {}
 		})
 	}

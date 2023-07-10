@@ -59,17 +59,18 @@ Page({
 	delAddress(e) {
 		console.log(e.currentTarget.dataset.item)
 		const that = this
-		const customerId = e.currentTarget.dataset.item.customerId
+		const id = e.currentTarget.dataset.item.id
 		http.httpDelete({
 			loading: '加载中...',
-			url: 'api/wxllCustomer/' + customerId,
-			params: {
-				id: customerId
-			},
-			complete: function (msg) {},
-			success: function (result) {
-				console.log(result)
-				that.getList()
+			url: '/api/address/delete/' + id,
+			complete: result => {
+				wx.showToast({
+					title: '删除成功',
+					icon: 'none'
+				})
+				setTimeout(() => {
+					that.getList()
+				}, 2000)
 			},
 			fail: function (e) {}
 		})
@@ -172,8 +173,20 @@ Page({
 			})
 	},
 	edit(e) {
+		console.log('E', e.currentTarget.dataset.item)
+		let data = e.currentTarget.dataset.item
+		// return
 		wx.navigateTo({
-			url: '/pages/addAddress/addAddress?edit=true&item=' + JSON.stringify(e.currentTarget.dataset.item)
+			url:
+				'/pages/addAddress/addAddress?edit=true&item=' +
+				JSON.stringify({
+					address: data.address,
+					area: data.area,
+					id: data.id,
+					name: data.name,
+					phone: data.phone,
+					streetNumber: data.streetNumber
+				})
 		})
 	},
 	preview(e) {
