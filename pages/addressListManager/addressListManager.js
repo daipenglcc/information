@@ -99,14 +99,6 @@ Page({
 
 				for (const index in arr) {
 					this.drawQr2(index)
-
-					// 	if (Object.hasOwnProperty.call(arr, index)) {
-					// 		const element = arr[index]
-					// 		var id = 'testCanvas' + index
-					// 		console.log(index)
-					// 		// console.log(element.addressShow)
-					// 		this.2(element)
-					// 	}
 				}
 			},
 			fail: function (e) {}
@@ -114,7 +106,7 @@ Page({
 	},
 	drawQr2(index) {
 		// wx.createSelectorQuery()
-		// 	.select('testCanvas0') // 在 WXML 中填入的 id
+		// 	.select('testCanvas1') // 在 WXML 中填入的 id
 		// 	.node(({ node: canvas }) => {
 		// 		var canvas = element.node
 		// 		const context = canvas.getContext('2d')
@@ -134,7 +126,7 @@ Page({
 		// 	.exec()
 		const query = wx.createSelectorQuery()
 		query
-			.select('#testCanvas0')
+			.select('#testCanvas' + index)
 			.fields({
 				node: true,
 				size: true
