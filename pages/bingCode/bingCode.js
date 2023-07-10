@@ -4,7 +4,7 @@
  * @Author: daipeng
  * @Date: 2023-07-08 17:08:25
  * @LastEditors: daipeng
- * @LastEditTime: 2023-07-09 18:12:33
+ * @LastEditTime: 2023-07-10 16:58:32
  */
 // pages/personalData/personalData.js
 const app = getApp()
@@ -68,7 +68,7 @@ Page({
 	onShareAppMessage() {
 		return {
 			title: '网络信息安全系统平台',
-			path: '/pages/splash/splash'
+			path: '/pages/index/index'
 		}
 	},
 	checkLogin(e) {

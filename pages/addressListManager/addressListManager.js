@@ -53,7 +53,7 @@ Page({
 	onShareAppMessage() {
 		return {
 			title: '网络信息安全系统平台',
-			path: '/pages/splash/splash'
+			path: '/pages/index/index'
 		}
 	},
 	delAddress(e) {

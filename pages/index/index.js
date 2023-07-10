@@ -253,7 +253,7 @@ Page({
 	onShareAppMessage: function () {
 		return {
 			title: '网络信息安全系统平台',
-			path: '/pages/splash/splash'
+			path: '/pages/index/index'
 		}
 	}
 })
