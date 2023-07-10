@@ -70,7 +70,7 @@ Page({
 				})
 				setTimeout(() => {
 					that.getList()
-				}, 2000)
+				}, 1000)
 			},
 			fail: function (e) {}
 		})
