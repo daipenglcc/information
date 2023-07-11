@@ -23,7 +23,7 @@
             <text class="name">身份证号码</text>
             <input name="idNumber" maxlength="18"  value="{{formData.idNumber}}"  class="input" type="idcard" placeholder="请输入" />
           </view>-->
-          <picker mode="region" bindchange="bindMultiPickerChange" value="{{multiIndex}}">
+          <picker mode="region" level="sub-district" bindchange="bindMultiPickerChange" value="{{multiIndex}}">
             <view class="input_box">
               <image mode="widthFix" class="icon" src="../images/qiyemingcheng.png"></image>
               <text class="name">省市区</text>

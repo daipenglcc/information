@@ -1,0 +1,117 @@
+/* pages/login/login.wxss */
+
+.logo {
+  width: 130rpx;
+  height: 140rpx;
+  margin: 140rpx auto 0 auto;
+}
+
+
+.form_box {
+  width: 100%;
+  display: flex;
+  margin-top: 70rpx;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.input_box {
+  width: 630rpx;
+  margin: 20rpx auto 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.tips {
+  font-size: 24rpx;
+  color: #1A1A1A;
+  font-weight: 300;
+  font-family: Microsoft YaHei;
+}
+
+.input_view {
+  width: 100%;
+  padding: 20rpx 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 2rpx solid #EEEEEE;
+}
+
+.t1 {
+  font-size: 32rpx;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  color: #1A1A1A;
+}
+
+.input {
+  margin: 0 30rpx;
+  font-size: 32rpx;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  color: #1A1A1A;
+}
+
+.input2 {
+  font-size: 32rpx;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  color: #1A1A1A;
+}
+
+.submit_btn {
+  margin: 70rpx auto 0 auto;
+}
+
+.submit_btn:active {
+  opacity: 0.7;
+}
+
+
+.t2 {
+  line-height: 100rpx;
+  font-size: 26rpx;
+  font-family: Microsoft YaHei;
+  font-weight: 300;
+  color: #191919;
+}
+
+.bottom_menu {
+  width: 600rpx;
+  display: flex;
+  margin: 0 auto;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bottom_box {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkbox {
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.t3 {
+  font-size: 27rpx;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  margin-left: 10rpx;
+  line-height: 70rpx;
+  color: #AAAAAA;
+}
+.t4{
+color: #3F7CEA;
+}

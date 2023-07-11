@@ -65,115 +65,9 @@ Page({
 		}
 	},
 
-	async handleInputComplete(event) {
-		const nickName = event.detail.value
-		console.log('输入完成：', nickName)
-		try {
-			let unionId = await this.getUnionId()
-			let obj = {
-				avatarUrl: wx.getStorageSync('userInfo').avatarUrl || '',
-				nickName: nickName,
-				unionId,
-				bind: false,
-				username: '',
-				smallId: '',
-				identity: '',
-				phone: ''
-			}
-			wx.setStorage({
-				key: 'userInfo',
-				data: obj,
-				success: () => {
-					this.setData({
-						unionId,
-						nickName: nickName,
-						avatarUrl: wx.getStorageSync('userInfo').avatarUrl || ''
-					})
-
-					http.httpPost({
-						url: '/api/system/user/wechat',
-						params: {
-							avar: wx.getStorageSync('userInfo').avatarUrl || '',
-							name: nickName,
-							unionId
-						},
-						complete: result => {},
-						fail: error => {}
-					})
-				},
-				fail: error => {
-					// console.log('存储缓存失败', error)
-				}
-			})
-		} catch (error) {
-			wx.showToast({
-				title: '登录失败',
-				icon: 'none'
-			})
-			return
-		}
-	},
-
-	getUserInfo() {
-		if (this.data.nickName) {
-			return
-		}
-		wx.getUserProfile({
-			desc: '用于保存用户的昵称', // 声明获取用户个人信息后的用途
-			success: async res => {
-				// 获取unionId
-				try {
-					let unionId = await this.getUnionId()
-					let obj = {
-						avatarUrl: res.userInfo.avatarUrl,
-						nickName: res.userInfo.nickName,
-						unionId,
-						bind: false,
-						username: '',
-						smallId: '',
-						identity: '',
-						phone: ''
-					}
-					wx.setStorage({
-						key: 'userInfo',
-						data: obj,
-						success: () => {
-							this.setData({
-								unionId,
-								nickName: res.userInfo.nickName,
-								avatarUrl: res.userInfo.avatarUrl
-							})
-
-							http.httpPost({
-								url: '/api/system/user/wechat',
-								params: {
-									avar: res.userInfo.avatarUrl,
-									name: res.userInfo.nickName,
-									unionId
-								},
-								complete: result => {},
-								fail: error => {}
-							})
-						},
-						fail: error => {
-							// console.log('存储缓存失败', error)
-						}
-					})
-				} catch (error) {
-					wx.showToast({
-						title: '登录失败',
-						icon: 'none'
-					})
-					return
-				}
-			},
-			fail: f => {
-				wx.showToast({
-					title: '授权失败',
-					icon: 'none'
-				})
-				return
-			}
+	toLogin() {
+		wx.navigateTo({
+			url: '../../pages/login/login'
 		})
 	},
 
@@ -265,7 +159,7 @@ Page({
 		// 判断是否登录
 		if (!wx.getStorageSync('userInfo').nickName || !wx.getStorageSync('userInfo').avatarUrl) {
 			return wx.showToast({
-				title: '请先完善用户名和头像',
+				title: '请先登录/注册',
 				icon: 'none'
 			})
 		}
@@ -286,7 +180,7 @@ Page({
 		// 判断是否登录
 		if (!wx.getStorageSync('userInfo').nickName || !wx.getStorageSync('userInfo').avatarUrl) {
 			return wx.showToast({
-				title: '请先完善用户名和头像',
+				title: '请先登录/注册',
 				icon: 'none'
 			})
 		}
@@ -299,7 +193,7 @@ Page({
 		// 判断是否登录
 		if (!wx.getStorageSync('userInfo').nickName || !wx.getStorageSync('userInfo').avatarUrl) {
 			return wx.showToast({
-				title: '请先完善用户名和头像',
+				title: '请先登录/注册',
 				icon: 'none'
 			})
 		}
@@ -321,12 +215,18 @@ Page({
 		wx.getStorage({
 			key: 'userInfo',
 			success: res => {
-				if (res.data.avatarUrl && res.data.nickName && res.data.username) {
+				console.log('res.data', res.data)
+				if (res.data.avatarUrl && res.data.nickName) {
 					this.setData({
 						unionId: res.data.unionId,
 						nickName: res.data.nickName,
 						avatarUrl: res.data.avatarUrl
 					})
+
+					if (!res.data.username) {
+						// 本地无存储，执行数据库存储校验
+						this.getSqlData()
+					}
 				} else {
 					// 本地无存储，执行数据库存储校验
 					this.getSqlData()

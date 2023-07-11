@@ -5,13 +5,20 @@ Page({
 	 * 页面的初始数据
 	 */
 	data: {
-		isCheck: false
+		isCheck: false,
+		nickname: '',
+		avatarUrl: ''
 	},
 
 	/**
 	 * 生命周期函数--监听页面加载
 	 */
-	onLoad(options) {},
+	onLoad(options) {
+		this.setData({
+			avatarUrl: wx.getStorageSync('userInfo').avatarUrl || '',
+			nickname: wx.getStorageSync('userInfo').nickName || ''
+		})
+	},
 
 	/**
 	 * 生命周期函数--监听页面初次渲染完成
@@ -52,64 +59,147 @@ Page({
 			path: '/pages/index/index'
 		}
 	},
+	// 输入昵称
+	handleInput(event) {
+		const value = event.detail.value
+		this.setData({
+			nickname: value
+		})
+	},
+	// 选择头像
+	async onChooseAvatar(e) {
+		const { avatarUrl } = e.detail
+		this.setData({
+			avatarUrl
+		})
+	},
+	// 选择昵称
+	async handleInputComplete(event) {
+		const nickName = event.detail.value
+		this.setData({
+			nickname: nickName
+		})
+	},
 	toSingPage() {
 		wx.navigateTo({
 			url: '/pages/singlePage/singlePage?type=1'
 		})
 	},
-	submit(e) {
-		console.log(e.detail.value)
+	async submit() {
+		if (!this.data.avatarUrl) {
+			wx.showToast({
+				title: '请选择头像',
+				icon: 'none'
+			})
+			return
+		}
+		if (!this.data.nickname) {
+			wx.showToast({
+				title: '请输入昵称',
+				icon: 'none'
+			})
+			return
+		}
+		// http.httpPost(
+		// 	{
+		// 		loading: '提交中...',
+		// 		url: 'api/user/login',
+		// 		params: {
+		// 			mobile: Number(formData.mobile),
+		// 			password: formData.password
+		// 		},
+		// 		complete: function (msg) {},
+		// 		success: function (result) {
+		// 			console.log(result)
+		// 			wx.setStorageSync('mobile', formData.mobile)
+		// 			wx.setStorageSync('company', result.company) //是否是企业用户
+		// 			wx.setStorageSync('token', result.token)
+		// 			wx.reLaunch({
+		// 				url: '/pages/memberCenter/memberCenter'
+		// 			})
+		// 		},
+		// 		fail: function (e) {}
+		// 	},
+		// 	'POST'
+		// )
 
-		var formData = e.detail.value
-
-		if (!formData.mobile) {
-			wx.showToast({
-				title: '请输入手机号',
-				icon: 'none'
-			})
-			return
-		}
-		if (!formData.password) {
-			wx.showToast({
-				title: '请输入密码',
-				icon: 'none'
-			})
-			return
-		}
-		if (!this.data.isCheck) {
-			wx.showToast({
-				title: '请先同意服务协议，隐私全政策',
-				icon: 'none'
-			})
-			return
-		}
-		http.httpPost(
-			{
-				loading: '登录中...',
-				url: 'api/user/login',
-				params: {
-					mobile: Number(formData.mobile),
-					password: formData.password
-				},
-				complete: function (msg) {},
-				success: function (result) {
-					console.log(result)
-					wx.setStorageSync('mobile', formData.mobile)
-					wx.setStorageSync('company', result.company) //是否是企业用户
-					wx.setStorageSync('token', result.token)
-					wx.reLaunch({
-						url: '/pages/memberCenter/memberCenter'
+		try {
+			let unionId = await this.getUnionId()
+			let obj = {
+				avatarUrl: this.data.avatarUrl,
+				nickName: this.data.nickname,
+				unionId,
+				bind: wx.getStorageSync('userInfo').bind || false,
+				username: wx.getStorageSync('userInfo').username || '',
+				smallId: wx.getStorageSync('userInfo').smallId || '',
+				identity: wx.getStorageSync('userInfo').identity || '',
+				phone: wx.getStorageSync('userInfo').phone || ''
+			}
+			wx.setStorage({
+				key: 'userInfo',
+				data: obj,
+				success: () => {
+					http.httpPost({
+						url: '/api/system/user/wechat',
+						params: {
+							avar: this.data.avatarUrl,
+							name: this.data.nickname,
+							unionId
+						},
+						complete: result => {
+							wx.navigateBack({
+								delta: 1,
+								success: () => {
+									// 登录成功
+									wx.showToast({
+										title: '登录成功',
+										icon: 'none'
+									})
+								}
+							})
+						},
+						fail: error => {}
 					})
 				},
-				fail: function (e) {}
-			},
-			'POST'
-		)
+				fail: error => {
+					// console.log('存储缓存失败', error)
+				}
+			})
+		} catch (error) {
+			wx.showToast({
+				title: '登录失败',
+				icon: 'none'
+			})
+			return
+		}
 	},
 	checkLogin(e) {
 		var isCheck = !this.data.isCheck
 		this.setData({
 			isCheck: isCheck
+		})
+	},
+	// 用code换取unionId
+	getUnionId() {
+		return new Promise((resolve, reject) => {
+			wx.login({
+				success: res => {
+					http.httpGet({
+						url: '/api/system/login',
+						params: {
+							code: res.code
+						},
+						complete: function (result) {
+							resolve(result.data.data.unionId)
+						},
+						fail: function (error) {}
+					})
+				},
+				fail: error => {
+					console.log('error', error)
+					reject('登录失败')
+				}
+			})
 		})
 	}
 })

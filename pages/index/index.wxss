@@ -97,11 +97,3 @@
   height: 41rpx;
   margin-right: 17rpx;
 }
-
-.avatar-wrapper{
-  background: #fff!important;
-  width: 53px!important;
-  height: 53px!important;
-  margin: 0!important;
-  padding: 0!important;
-}

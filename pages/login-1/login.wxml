@@ -1,0 +1,52 @@
+<!--pages/login/login.wxml-->
+<view class="container">
+  <image class="logo" src="../images/logo.png"></image>
+
+  <scroll-view scroll-y="true">
+    <view>
+      <form bindsubmit="submit">
+        <view class="form_box">
+          <view class="input_box">
+            <text class="tips">手机号码</text>
+            <view class="input_view">
+              <text class="t1">+86</text>
+              <!-- 13812365478 -->
+              <input name="mobile" maxlength="11" value="" class="input" type="text" placeholder="请输入手机号" />
+            </view>
+          </view>
+
+
+          <view class="input_box">
+            <text class="tips">密码</text>
+            <view class="input_view">
+              <!-- 123456 -->
+              <input name="password" password="true" class="input2" value="" type="text" placeholder="请输入密码" password />
+            </view>
+          </view>
+
+
+
+          <button class="submit_btn" type="primary" form-type="submit" size="default" style="background: #409DFD;width: 600rpx;font-size: 32rpx;">登录</button>
+        </view>
+      </form>
+    </view>
+  </scroll-view>
+
+  <view class="bottom_menu">
+
+    <navigator url="/pages/register/register" hover-class="none">
+      <text class="t2">新用户注册</text>
+    </navigator>
+
+    <navigator url="/pages/forgetPassword/forgetPassword" hover-class="none">
+      <text class="t2">忘记密码?</text>
+    </navigator>
+
+  </view>
+
+  <view class="bottom_box" bindtap="checkLogin">
+    <image class="checkbox" src="{{isCheck ? '../images/radio_check.png' : '../images/radio_uncheck.png'}}"></image>
+    <text class="t3" catchtap="toSingPage">我已阅读并同意<text class="t4">服务协议，隐私全政策</text></text>
+  </view>
+
+</view>
