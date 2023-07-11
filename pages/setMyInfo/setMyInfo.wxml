@@ -37,7 +37,7 @@
         </view>
         <view class="bottom_box" >
           <image class="checkbox" bindtap="checkLogin" src="{{isCheck ? '../images/radio_check.png' : '../images/radio_uncheck.png'}}"></image>
-          <view class="t3" >我已确定并同意<text class="t4" bindtap="toSingPage">《信息安全平台用户协议》</text></view>
+          <view class="t3" ><text bindtap="checkLogin">我已确定并同意</text><text class="t4" bindtap="toSingPage">《信息安全平台用户协议》</text></view>
         </view>
         <button class="submit_btn" type="primary" form-type="submit" size="default" style="background: #409DFD;width: 400rpx;font-size: 30rpx;font-weight: 400;border-radius: 105px;margin-top: 66rpx;">确 定</button>
       </form>

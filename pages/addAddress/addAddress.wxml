@@ -32,7 +32,7 @@
           </picker>
           <view class="input_box">
             <image mode="widthFix" class="icon" src="../images/qiyemingcheng.png"></image>
-            <text class="name">详细地址</text>
+            <text class="name">街道门牌</text>
             <input name="address" class="input" value="{{formData.address}}" type="text" placeholder="请输入" />
           </view>
           <view class="input_box">

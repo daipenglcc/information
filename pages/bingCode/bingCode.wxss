@@ -151,7 +151,7 @@
 
 .tips-text{
   text-align: left;
-  font-size: 18rpx;
+  font-size: 22rpx;
 font-family: Microsoft YaHei;
 font-weight: 400;
 color: #C81C1C;
