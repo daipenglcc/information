@@ -72,9 +72,9 @@ Page({
 	},
 
 	async getSqlData() {
-		wx.showLoading({
-			title: '初始化登录'
-		})
+		// wx.showLoading({
+		// 	title: '初始化登录'
+		// })
 
 		try {
 			let unionId = await this.getUnionId()
@@ -120,7 +120,7 @@ Page({
 				fail: function (error) {}
 			})
 			// 初始化完成
-			wx.hideLoading()
+			// wx.hideLoading()
 		} catch (error) {
 			console.log('error', error)
 			wx.showToast({
@@ -212,6 +212,8 @@ Page({
 	 */
 	onShow: function () {
 		console.log('获取详情')
+		this.getSqlData()
+		return
 		wx.getStorage({
 			key: 'userInfo',
 			success: res => {

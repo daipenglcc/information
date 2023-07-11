@@ -3,7 +3,7 @@
   <scroll-view scroll-y="true">
     <view>
       <view class="tips-text">
-        {{!bind?"如果您已经在信息安全平台注册账号，可以在这里进行绑定。":"您的个人资料和个人地址将由信息安全平台的同步到小程序端，以便您更好的进行管理。"}}
+        {{!bind?"如果您已经在信息安全平台注册账号，可以在这里进行绑定。您的个人资料和个人地址将由信息安全平台的同步到小程序端，以便您更好的进行管理。":"您已经绑定账号“"+username+"”"}}
       </view>
       <form bindsubmit="submit">
         <view class="form_box" wx:if="{{!bind}}">
