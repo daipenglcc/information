@@ -76,17 +76,6 @@ Page({
 			fail: function (e) {}
 		})
 	},
-	// preview(e) {
-	// 	console.log('e', e)
-
-	// 	const url = e.currentTarget.dataset.url
-	// 	console.log('url', url)
-	// 	var list = []
-	// 	list.push(url)
-	// 	wx.previewImage({
-	// 		urls: list
-	// 	})
-	// },
 	getList() {
 		http.httpGet({
 			// loading: '加载中...',
@@ -109,25 +98,6 @@ Page({
 		})
 	},
 	drawQr2(index) {
-		// wx.createSelectorQuery()
-		// 	.select('testCanvas1') // 在 WXML 中填入的 id
-		// 	.node(({ node: canvas }) => {
-		// 		var canvas = element.node
-		// 		const context = canvas.getContext('2d')
-
-		// 		console.log(999999)
-		// 		// 调用方法2code生成二维码
-		// 		2code({
-		// 			canvas: canvas,
-		// 			canvasId: context,
-		// 			width: 100,
-		// 			padding: 0,
-		// 			background: '#ffffff',
-		// 			foreground: '#000000',
-		// 			text: 'element.addressShow'
-		// 		})
-		// 	})
-		// 	.exec()
 		const query = wx.createSelectorQuery()
 		query
 			.select('#testCanvas' + index)
@@ -161,10 +131,10 @@ Page({
 					destHeight: 260,
 					success: res => {
 						console.log('二维码临时路径：', res.tempFilePath)
-						this.data.arrList.push(res.tempFilePath)
-						this.setData({
-							arrList: this.data.arrList
-						})
+						// this.data.arrList.push(res.tempFilePath)
+						// this.setData({
+						// 	arrList: this.data.arrList
+						// })
 					},
 					fail(res) {
 						console.error(res)
@@ -190,11 +160,58 @@ Page({
 		})
 	},
 	preview(e) {
-		// console.log('xxxxx', e.currentTarget.dataset.index)
-		console.log('xxxxx2', e.currentTarget.dataset.img)
-		wx.previewImage({
-			urls: [e.currentTarget.dataset.img]
+		let index = e.currentTarget.dataset.index
+		wx.showLoading({
+			title: '加载中'
 		})
+		const query = wx.createSelectorQuery()
+		query
+			.select('#testCanvas' + index)
+			.fields({
+				node: true,
+				size: true
+			})
+			.exec(res => {
+				var canvas = res[0].node
+
+				// 调用方法2code生成二维码
+				drawQrcode({
+					canvas: canvas,
+					canvasId: 'myQrcode',
+					width: 260,
+					padding: 30,
+					background: '#ffffff',
+					foreground: '#000000',
+					text: this.data.mList[index].addressEncode
+				})
+
+				// 获取临时路径（得到之后，想干嘛就干嘛了）
+				wx.canvasToTempFilePath({
+					canvasId: 'myQrcode',
+					canvas: canvas,
+					x: 0,
+					y: 0,
+					width: 260,
+					height: 260,
+					destWidth: 260,
+					destHeight: 260,
+					success: res => {
+						console.log('二维码临时路径：', res.tempFilePath)
+						// this.data.arrList.push(res.tempFilePath)
+						// this.setData({
+						// 	arrList: this.data.arrList
+						// })
+						wx.hideLoading()
+
+						wx.previewImage({
+							urls: [res.tempFilePath]
+						})
+					},
+					fail(res) {
+						console.error(res)
+					}
+				})
+			})
 	},
 	copyText(e) {
 		wx.setClipboardData({
