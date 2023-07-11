@@ -7,7 +7,8 @@ Page({
 	 * 页面的初始数据
 	 */
 	data: {
-		mList: []
+		mList: [],
+		arrList: []
 	},
 
 	/**
@@ -75,17 +76,20 @@ Page({
 			fail: function (e) {}
 		})
 	},
-	preview(e) {
-		const url = e.currentTarget.dataset.url
-		var list = []
-		list.push(url)
-		wx.previewImage({
-			urls: list
-		})
-	},
+	// preview(e) {
+	// 	console.log('e', e)
+
+	// 	const url = e.currentTarget.dataset.url
+	// 	console.log('url', url)
+	// 	var list = []
+	// 	list.push(url)
+	// 	wx.previewImage({
+	// 		urls: list
+	// 	})
+	// },
 	getList() {
 		http.httpGet({
-			loading: '加载中...',
+			// loading: '加载中...',
 			url: '/api/address/page',
 			params: {
 				unionId: wx.getStorageSync('userInfo').unionId
@@ -155,8 +159,12 @@ Page({
 					height: 260,
 					destWidth: 260,
 					destHeight: 260,
-					success(res) {
+					success: res => {
 						console.log('二维码临时路径：', res.tempFilePath)
+						this.data.arrList.push(res.tempFilePath)
+						this.setData({
+							arrList: this.data.arrList
+						})
 					},
 					fail(res) {
 						console.error(res)
@@ -182,7 +190,8 @@ Page({
 		})
 	},
 	preview(e) {
-		console.log(e.currentTarget.dataset.img)
+		// console.log('xxxxx', e.currentTarget.dataset.index)
+		console.log('xxxxx2', e.currentTarget.dataset.img)
 		wx.previewImage({
 			urls: [e.currentTarget.dataset.img]
 		})
