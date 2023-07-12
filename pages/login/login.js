@@ -1,5 +1,6 @@
 // pages/login/login.js
 const http = require('../../utils/http.js')
+import { pathToBase64, base64ToPath } from '../../utils/index.js'
 Page({
 	/**
 	 * 页面的初始数据
@@ -68,25 +69,18 @@ Page({
 	},
 	// 选择头像
 	async onChooseAvatar(e) {
-		console.log('e', e)
-		console.log('e.detail', e.detail)
 		const { avatarUrl } = e.detail
-		wx.uploadFile({
-			url: 'https://server.wuxianliuliang.cn/api/file/img/upload',
-			filePath: avatarUrl,
-			name: 'avatarImg',
-			header: { 'content-type': 'multipart/form-data' },
-			success: res => {
-				const data = res.data
-				//do something
+
+		pathToBase64(avatarUrl)
+			.then(path => {
+				console.log('path', path)
 				this.setData({
-					avatarUrl
+					avatarUrl: path
 				})
-			},
-			fail: error => {
-				console.log('Error', error)
-			}
-		})
+			})
+			.catch(error => {
+				console.log(error)
+			})
 	},
 	// 选择昵称
 	async handleInputComplete(event) {
