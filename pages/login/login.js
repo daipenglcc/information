@@ -68,9 +68,24 @@ Page({
 	},
 	// 选择头像
 	async onChooseAvatar(e) {
+		console.log('e', e)
+		console.log('e.detail', e.detail)
 		const { avatarUrl } = e.detail
-		this.setData({
-			avatarUrl
+		wx.uploadFile({
+			url: 'https://server.wuxianliuliang.cn/api/file/img/upload',
+			filePath: avatarUrl,
+			name: 'avatarImg',
+			header: { 'content-type': 'multipart/form-data' },
+			success: res => {
+				const data = res.data
+				//do something
+				this.setData({
+					avatarUrl
+				})
+			},
+			fail: error => {
+				console.log('Error', error)
+			}
 		})
 	},
 	// 选择昵称
